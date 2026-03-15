@@ -1,0 +1,185 @@
+@font-face {
+  font-family: "Fraunces";
+  src: url("/assets/fonts/Fraunces.woff2") format("woff2");
+  font-weight: 300 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Figtree";
+  src: url("/assets/fonts/Figtree.woff2") format("woff2");
+  font-weight: 300 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0.97 0.018 75;
+    --foreground: 0.2 0.04 45;
+    --card: 0.995 0.01 80;
+    --card-foreground: 0.2 0.04 45;
+    --popover: 0.995 0.01 80;
+    --popover-foreground: 0.2 0.04 45;
+    --primary: 0.65 0.2 50;
+    --primary-foreground: 0.99 0.01 85;
+    --secondary: 0.93 0.04 120;
+    --secondary-foreground: 0.28 0.08 130;
+    --muted: 0.93 0.02 80;
+    --muted-foreground: 0.5 0.05 60;
+    --accent: 0.82 0.16 85;
+    --accent-foreground: 0.18 0.05 50;
+    --destructive: 0.55 0.22 25;
+    --destructive-foreground: 0.97 0.01 85;
+    --border: 0.88 0.03 75;
+    --input: 0.88 0.03 75;
+    --ring: 0.65 0.2 50;
+    --radius: 0.6rem;
+    --chart-1: 0.65 0.2 50;
+    --chart-2: 0.82 0.16 85;
+    --chart-3: 0.68 0.17 155;
+    --chart-4: 0.62 0.18 200;
+    --chart-5: 0.62 0.18 320;
+    --sidebar: 0.95 0.015 80;
+    --sidebar-foreground: 0.2 0.04 45;
+    --sidebar-primary: 0.65 0.2 50;
+    --sidebar-primary-foreground: 0.99 0.01 85;
+    --sidebar-accent: 0.93 0.04 120;
+    --sidebar-accent-foreground: 0.28 0.08 130;
+    --sidebar-border: 0.88 0.03 75;
+    --sidebar-ring: 0.65 0.2 50;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: "Figtree", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: "Fraunces", Georgia, serif;
+  }
+  .font-body {
+    font-family: "Figtree", system-ui, sans-serif;
+  }
+}
+
+/* Hero animated color wash */
+@keyframes heroColorCycle {
+  0% {
+    background: radial-gradient(ellipse at 30% 50%, #f97316 0%, transparent 70%);
+  }
+  25% {
+    background: radial-gradient(ellipse at 70% 40%, #eab308 0%, transparent 70%);
+  }
+  50% {
+    background: radial-gradient(ellipse at 50% 70%, #ef4444 0%, transparent 70%);
+  }
+  75% {
+    background: radial-gradient(ellipse at 20% 30%, #22c55e 0%, transparent 70%);
+  }
+  100% {
+    background: radial-gradient(ellipse at 30% 50%, #f97316 0%, transparent 70%);
+  }
+}
+
+.hero-color-cycle {
+  animation: heroColorCycle 8s ease-in-out infinite;
+}
+
+/* Animated gradient text for "Natural." */
+@keyframes gradientText {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.hero-gradient-text {
+  background: linear-gradient(
+    90deg,
+    #f97316,
+    #eab308,
+    #ef4444,
+    #f59e0b,
+    #22c55e,
+    #f97316
+  );
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientText 4s ease-in-out infinite;
+}
+
+/* Glow aura behind "Pure." */
+@keyframes glowPulse {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.15);
+  }
+}
+
+.hero-glow-aura {
+  background: radial-gradient(
+    ellipse,
+    #f97316 0%,
+    #eab308 40%,
+    #ef4444 70%,
+    transparent 100%
+  );
+  animation: glowPulse 3s ease-in-out infinite;
+}
+
+/* CTA shimmer button */
+@keyframes ctaShimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.hero-cta-btn {
+  background: linear-gradient(135deg, #f97316, #ef4444, #eab308, #f97316) !important;
+  background-size: 300% 300% !important;
+  animation: ctaShimmer 2.5s ease-in-out infinite;
+  box-shadow: 0 4px 24px rgba(249, 115, 22, 0.5);
+}
+
+.hero-cta-btn:hover {
+  background: linear-gradient(135deg, #ea580c, #dc2626, #ca8a04, #ea580c) !important;
+  background-size: 300% 300% !important;
+  animation: ctaShimmer 1.8s ease-in-out infinite;
+  box-shadow: 0 8px 32px rgba(249, 115, 22, 0.65);
+}
