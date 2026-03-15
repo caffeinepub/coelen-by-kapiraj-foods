@@ -92,7 +92,7 @@ export function Navbar() {
                   <img
                     src="/assets/generated/ecoelen-logo-transparent.dim_200x200.png"
                     alt="Ècoelen"
-                    className="h-12 w-12 md:h-14 md:w-14 object-contain"
+                    className="h-20 w-20 md:h-28 md:w-28 object-contain"
                   />
                 </div>
               </div>
@@ -104,7 +104,7 @@ export function Navbar() {
               style={{ zIndex: 2 }}
             >
               <span
-                className="font-display font-extrabold text-2xl md:text-3xl tracking-tight"
+                className="font-display font-extrabold text-3xl md:text-4xl tracking-tight"
                 style={{
                   background: showScrolled
                     ? "linear-gradient(135deg, #f97316 0%, #ef4444 35%, #eab308 65%, #22c55e 100%)"
@@ -120,7 +120,7 @@ export function Navbar() {
                 Ècoelen
               </span>
               <span
-                className={`text-[10px] font-body tracking-widest uppercase transition-colors duration-300 font-semibold ${
+                className={`text-[11px] font-body tracking-widest uppercase transition-colors duration-300 font-semibold ${
                   showScrolled ? "text-muted-foreground" : "text-amber-200/90"
                 }`}
               >

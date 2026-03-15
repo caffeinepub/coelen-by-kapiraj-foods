@@ -22,6 +22,7 @@ import {
   usePlaceOrder,
 } from "@/hooks/useQueries";
 import {
+  CheckCircle2,
   CreditCard,
   Loader2,
   Minus,
@@ -111,6 +112,10 @@ export function CartDrawer({ open, onClose }: Props) {
   };
 
   const isPayingOnline = createCheckout.isPending;
+
+  // Price breakout — GST at 5% (inclusive), total never changes
+  const itemsSubtotal = Math.round(cartTotal * (100 / 105));
+  const gstAmount = cartTotal - itemsSubtotal;
 
   return (
     <Sheet open={open} onOpenChange={(v) => !v && onClose()}>
@@ -225,14 +230,64 @@ export function CartDrawer({ open, onClose }: Props) {
 
                 <Separator className="my-5" />
 
-                {/* Subtotal */}
-                <div className="flex justify-between items-center">
-                  <span className="font-body font-medium text-muted-foreground">
-                    Subtotal
-                  </span>
-                  <span className="font-display font-bold text-xl text-primary">
-                    ₹{cartTotal.toFixed(0)}
-                  </span>
+                {/* Price Breakout Card */}
+                <div className="rounded-xl bg-muted/50 border border-border/60 overflow-hidden">
+                  <div className="px-4 py-2.5 bg-primary/8 border-b border-border/40">
+                    <p className="font-display font-semibold text-sm text-foreground">
+                      Price Breakout
+                    </p>
+                  </div>
+                  <div className="px-4 py-3 space-y-2.5">
+                    {/* Items subtotal */}
+                    <div className="flex justify-between items-center">
+                      <span className="font-body text-sm text-muted-foreground">
+                        Items
+                      </span>
+                      <span className="font-body text-sm font-medium text-foreground">
+                        ₹{itemsSubtotal.toFixed(0)}
+                      </span>
+                    </div>
+
+                    {/* GST */}
+                    <div className="flex justify-between items-center">
+                      <span className="font-body text-sm text-muted-foreground">
+                        GST (5% incl.)
+                      </span>
+                      <span className="font-body text-sm font-medium text-foreground">
+                        ₹{gstAmount.toFixed(0)}
+                      </span>
+                    </div>
+
+                    {/* Delivery */}
+                    <div className="flex justify-between items-center">
+                      <span className="font-body text-sm text-muted-foreground">
+                        Delivery charges
+                      </span>
+                      <span className="font-body text-sm font-bold text-green-600 dark:text-green-400">
+                        FREE
+                      </span>
+                    </div>
+
+                    <Separator className="my-1" />
+
+                    {/* Total */}
+                    <div className="flex justify-between items-center">
+                      <span className="font-display font-bold text-sm text-foreground">
+                        Total (incl. all taxes)
+                      </span>
+                      <span className="font-display font-bold text-lg text-primary">
+                        ₹{cartTotal.toFixed(0)}
+                      </span>
+                    </div>
+
+                    {/* Assurance note */}
+                    <div className="flex items-center gap-1.5 pt-0.5">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-green-500 flex-shrink-0" />
+                      <p className="text-xs text-muted-foreground font-body">
+                        Price is inclusive of all taxes &amp; charges
+                      </p>
+                    </div>
+                  </div>
                 </div>
 
                 <Separator className="my-2" />

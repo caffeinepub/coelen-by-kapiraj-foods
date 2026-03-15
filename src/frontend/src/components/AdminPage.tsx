@@ -237,7 +237,7 @@ export function AdminPage({ onClose }: Props) {
                               {p.name}
                             </TableCell>
                             <TableCell>{p.category}</TableCell>
-                            <TableCell>₹{p.price}</TableCell>
+                            <TableCell>{p.price}</TableCell>
                             <TableCell>
                               <Badge
                                 variant={
