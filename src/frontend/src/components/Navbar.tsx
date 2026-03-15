@@ -49,39 +49,25 @@ export function Navbar() {
             type="button"
             data-ocid="nav.link"
             onClick={() => handleNavClick("home")}
-            className="flex items-center gap-3 group relative z-10"
+            className="flex items-center gap-3 group"
             initial={{ opacity: 0, x: -16 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.4, ease: "easeOut" }}
           >
-            {/* Logo image with colorful ring/glow */}
-            <div
-              className="relative flex-shrink-0"
-              style={{ isolation: "isolate" }}
-            >
-              {/* Animated rainbow ring */}
+            {/* Logo image with colorful spinning ring */}
+            <div className="relative flex-shrink-0">
+              {/* Spinning rainbow ring — uses CSS class so the keyframe is guaranteed */}
               <div
-                className="absolute inset-0 rounded-full"
+                className="rainbow-spin absolute -inset-1 rounded-full"
                 style={{
                   background:
                     "conic-gradient(from 0deg, #f97316, #eab308, #ef4444, #22c55e, #06b6d4, #a855f7, #f97316)",
-                  padding: "3px",
-                  animation: "spin 4s linear infinite",
                   borderRadius: "9999px",
-                  zIndex: 0,
                 }}
               />
-              {/* Glow blur layer */}
+              {/* Logo container sits on top of the spinning ring */}
               <div
-                className="absolute -inset-2 rounded-full opacity-50 blur-md"
-                style={{
-                  background:
-                    "conic-gradient(from 0deg, #f97316, #eab308, #ef4444, #22c55e, #06b6d4, #a855f7, #f97316)",
-                  zIndex: -1,
-                }}
-              />
-              <div
-                className="relative rounded-full p-0.5"
+                className="relative rounded-full p-[3px]"
                 style={{
                   background:
                     "conic-gradient(from 0deg, #f97316, #eab308, #ef4444, #22c55e, #06b6d4, #a855f7, #f97316)",
@@ -98,23 +84,14 @@ export function Navbar() {
               </div>
             </div>
 
-            {/* Brand text */}
-            <div
-              className="relative flex flex-col leading-none"
-              style={{ zIndex: 2 }}
-            >
+            {/* Brand text — NO filter on gradient text to prevent glitch */}
+            <div className="flex flex-col leading-none">
               <span
-                className="font-display font-extrabold text-3xl md:text-4xl tracking-tight"
+                className="font-display font-extrabold text-3xl md:text-4xl tracking-tight gradient-text"
                 style={{
                   background: showScrolled
                     ? "linear-gradient(135deg, #f97316 0%, #ef4444 35%, #eab308 65%, #22c55e 100%)"
                     : "linear-gradient(135deg, #fde68a 0%, #fbbf24 30%, #fb923c 60%, #f87171 100%)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  backgroundClip: "text",
-                  filter: "drop-shadow(0 1px 4px rgba(249,115,22,0.4))",
-                  display: "block",
-                  position: "relative",
                 }}
               >
                 Ècoelen

@@ -26,7 +26,7 @@ export function SplashScreen() {
         >
           {/* Background radial glow */}
           <div
-            className="absolute inset-0"
+            className="absolute inset-0 pointer-events-none"
             style={{
               background:
                 "radial-gradient(ellipse 60% 50% at 50% 50%, rgba(249,115,22,0.12) 0%, rgba(168,85,247,0.08) 50%, transparent 100%)",
@@ -40,8 +40,16 @@ export function SplashScreen() {
             transition={{ duration: 0.5, ease: [0.34, 1.56, 0.64, 1] }}
             className="flex flex-col items-center gap-5 relative"
           >
-            {/* Logo with animated ring */}
-            <div className="relative" style={{ isolation: "isolate" }}>
+            {/* Logo with animated ring — uses framer-motion rotate for reliability */}
+            <div className="relative">
+              {/* Outer glow (decorative only, behind everything) */}
+              <div
+                className="absolute -inset-6 rounded-full opacity-30 blur-xl pointer-events-none"
+                style={{
+                  background:
+                    "conic-gradient(from 0deg, #f97316, #eab308, #ef4444, #22c55e, #06b6d4, #a855f7, #f97316)",
+                }}
+              />
               {/* Spinning rainbow ring */}
               <motion.div
                 animate={{ rotate: 360 }}
@@ -50,32 +58,23 @@ export function SplashScreen() {
                   repeat: Number.POSITIVE_INFINITY,
                   ease: "linear",
                 }}
-                className="absolute -inset-3 rounded-full"
+                className="absolute -inset-2 rounded-full"
                 style={{
                   background:
                     "conic-gradient(from 0deg, #f97316, #eab308, #ef4444, #22c55e, #06b6d4, #a855f7, #f97316)",
-                  padding: "4px",
                   borderRadius: "9999px",
-                }}
-              />
-              {/* Outer glow */}
-              <div
-                className="absolute -inset-6 rounded-full opacity-40 blur-xl"
-                style={{
-                  background:
-                    "conic-gradient(from 0deg, #f97316, #eab308, #ef4444, #22c55e, #06b6d4, #a855f7, #f97316)",
                 }}
               />
               {/* Logo container */}
               <div
-                className="relative rounded-full p-1"
+                className="relative rounded-full p-[3px]"
                 style={{
                   background:
                     "conic-gradient(from 0deg, #f97316, #eab308, #ef4444, #22c55e, #06b6d4, #a855f7, #f97316)",
                   zIndex: 1,
                 }}
               >
-                <div className="rounded-full bg-[#0a0a0a] p-2">
+                <div className="rounded-full bg-[#0a0a0a] p-3">
                   <img
                     src="/assets/generated/ecoelen-logo-transparent.dim_200x200.png"
                     alt="Ècoelen"
@@ -85,7 +84,7 @@ export function SplashScreen() {
               </div>
             </div>
 
-            {/* Brand name */}
+            {/* Brand name — NO filter property to prevent gradient-text glitch */}
             <motion.div
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
@@ -93,14 +92,10 @@ export function SplashScreen() {
               className="flex flex-col items-center gap-1"
             >
               <span
-                className="font-display font-extrabold text-5xl tracking-tight"
+                className="font-display font-extrabold text-5xl tracking-tight gradient-text"
                 style={{
                   background:
                     "linear-gradient(135deg, #f97316 0%, #ef4444 30%, #eab308 60%, #22c55e 100%)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  backgroundClip: "text",
-                  filter: "drop-shadow(0 2px 12px rgba(249,115,22,0.5))",
                 }}
               >
                 Ècoelen

@@ -23,16 +23,15 @@ export function Footer({ onAdminClick }: Props) {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10">
           <div>
             <div className="flex items-center gap-3 mb-4">
-              {/* Footer logo with bright solid background so it's always visible */}
+              {/* Footer logo — solid ring so it's always visible on dark background */}
               <div
-                className="h-16 w-16 rounded-full flex items-center justify-center shrink-0"
+                className="rounded-full p-[3px] shrink-0"
                 style={{
                   background:
                     "conic-gradient(from 0deg, #f97316, #eab308, #ef4444, #22c55e, #06b6d4, #a855f7, #f97316)",
-                  padding: "3px",
                 }}
               >
-                <div className="h-full w-full rounded-full bg-white flex items-center justify-center">
+                <div className="h-14 w-14 rounded-full bg-white flex items-center justify-center">
                   <img
                     src="/assets/generated/ecoelen-logo-transparent.dim_200x200.png"
                     alt="Ècoelen"
@@ -41,11 +40,15 @@ export function Footer({ onAdminClick }: Props) {
                 </div>
               </div>
               <div>
+                {/* Plain white text — no gradient-text needed in dark footer */}
                 <p className="font-display font-bold text-xl leading-none text-white">
                   Ècoelen
                 </p>
                 <p className="text-[10px] tracking-widest uppercase text-white/50">
                   by Kapiraj Foods
+                </p>
+                <p className="text-[10px] tracking-widest uppercase text-white/40 mt-0.5">
+                  Est. 2026
                 </p>
               </div>
             </div>

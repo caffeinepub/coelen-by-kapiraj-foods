@@ -78,32 +78,130 @@
   .font-body {
     font-family: "Figtree", system-ui, sans-serif;
   }
+  /* Safe gradient text — NO filter so no rendering glitch with -webkit-text-fill-color */
+  .gradient-text {
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+  .rainbow-spin {
+    animation: rainbowSpin 4s linear infinite;
+  }
+  .hero-color-cycle {
+    animation: heroColorCycle 8s ease-in-out infinite;
+  }
+  .hero-gradient-text {
+    background-image: linear-gradient(
+      90deg,
+      #f97316,
+      #eab308,
+      #ef4444,
+      #f59e0b,
+      #22c55e,
+      #f97316
+    );
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradientText 4s ease-in-out infinite;
+  }
+  .hero-glow-aura {
+    background-image: radial-gradient(
+      ellipse,
+      #f97316 0%,
+      #eab308 40%,
+      #ef4444 70%,
+      transparent 100%
+    );
+    animation: glowPulse 3s ease-in-out infinite;
+  }
+  .hero-cta-btn {
+    background-image: linear-gradient(
+      135deg,
+      #f97316,
+      #ef4444,
+      #eab308,
+      #f97316
+    ) !important;
+    background-size: 300% 300% !important;
+    animation: ctaShimmer 2.5s ease-in-out infinite;
+    box-shadow: 0 4px 24px rgba(249, 115, 22, 0.5);
+  }
+  .hero-cta-btn:hover {
+    background-image: linear-gradient(
+      135deg,
+      #ea580c,
+      #dc2626,
+      #ca8a04,
+      #ea580c
+    ) !important;
+    background-size: 300% 300% !important;
+    animation: ctaShimmer 1.8s ease-in-out infinite;
+    box-shadow: 0 8px 32px rgba(249, 115, 22, 0.65);
+  }
 }
 
-/* Hero animated color wash */
+/* ---- Keyframes (outside @layer) ---- */
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes rainbowSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Use background-image (not shorthand) to avoid noShorthandPropertyOverrides lint */
 @keyframes heroColorCycle {
   0% {
-    background: radial-gradient(ellipse at 30% 50%, #f97316 0%, transparent 70%);
+    background-image: radial-gradient(
+      ellipse at 30% 50%,
+      #f97316 0%,
+      transparent 70%
+    );
   }
   25% {
-    background: radial-gradient(ellipse at 70% 40%, #eab308 0%, transparent 70%);
+    background-image: radial-gradient(
+      ellipse at 70% 40%,
+      #eab308 0%,
+      transparent 70%
+    );
   }
   50% {
-    background: radial-gradient(ellipse at 50% 70%, #ef4444 0%, transparent 70%);
+    background-image: radial-gradient(
+      ellipse at 50% 70%,
+      #ef4444 0%,
+      transparent 70%
+    );
   }
   75% {
-    background: radial-gradient(ellipse at 20% 30%, #22c55e 0%, transparent 70%);
+    background-image: radial-gradient(
+      ellipse at 20% 30%,
+      #22c55e 0%,
+      transparent 70%
+    );
   }
   100% {
-    background: radial-gradient(ellipse at 30% 50%, #f97316 0%, transparent 70%);
+    background-image: radial-gradient(
+      ellipse at 30% 50%,
+      #f97316 0%,
+      transparent 70%
+    );
   }
 }
 
-.hero-color-cycle {
-  animation: heroColorCycle 8s ease-in-out infinite;
-}
-
-/* Animated gradient text for "Natural." */
 @keyframes gradientText {
   0% {
     background-position: 0% 50%;
@@ -116,24 +214,6 @@
   }
 }
 
-.hero-gradient-text {
-  background: linear-gradient(
-    90deg,
-    #f97316,
-    #eab308,
-    #ef4444,
-    #f59e0b,
-    #22c55e,
-    #f97316
-  );
-  background-size: 300% 300%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: gradientText 4s ease-in-out infinite;
-}
-
-/* Glow aura behind "Pure." */
 @keyframes glowPulse {
   0%,
   100% {
@@ -146,18 +226,6 @@
   }
 }
 
-.hero-glow-aura {
-  background: radial-gradient(
-    ellipse,
-    #f97316 0%,
-    #eab308 40%,
-    #ef4444 70%,
-    transparent 100%
-  );
-  animation: glowPulse 3s ease-in-out infinite;
-}
-
-/* CTA shimmer button */
 @keyframes ctaShimmer {
   0% {
     background-position: 0% 50%;
@@ -168,18 +236,4 @@
   100% {
     background-position: 0% 50%;
   }
-}
-
-.hero-cta-btn {
-  background: linear-gradient(135deg, #f97316, #ef4444, #eab308, #f97316) !important;
-  background-size: 300% 300% !important;
-  animation: ctaShimmer 2.5s ease-in-out infinite;
-  box-shadow: 0 4px 24px rgba(249, 115, 22, 0.5);
-}
-
-.hero-cta-btn:hover {
-  background: linear-gradient(135deg, #ea580c, #dc2626, #ca8a04, #ea580c) !important;
-  background-size: 300% 300% !important;
-  animation: ctaShimmer 1.8s ease-in-out infinite;
-  box-shadow: 0 8px 32px rgba(249, 115, 22, 0.65);
 }
