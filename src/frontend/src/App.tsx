@@ -13,6 +13,7 @@ import { MarqueeStrip } from "./components/MarqueeStrip";
 import { Navbar } from "./components/Navbar";
 import { ProcessSection } from "./components/ProcessSection";
 import { ProductsSection } from "./components/ProductsSection";
+import { SplashScreen } from "./components/SplashScreen";
 import { TestimonialsSection } from "./components/TestimonialsSection";
 import { CartProvider } from "./context/CartContext";
 import { NavigationProvider, useNavigation } from "./context/NavigationContext";
@@ -87,6 +88,7 @@ function AppContent() {
 
   return (
     <CartProvider>
+      <SplashScreen />
       <Navbar />
       <PageContent />
       <Footer onAdminClick={() => setAdminOpen(true)} />

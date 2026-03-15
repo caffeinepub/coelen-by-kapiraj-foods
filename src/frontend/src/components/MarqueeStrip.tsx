@@ -22,7 +22,7 @@ export function MarqueeStrip() {
         .marquee-track {
           display: flex;
           width: max-content;
-          animation: marquee-scroll 21.6s linear infinite;
+          animation: marquee-scroll 43.2s linear infinite;
           will-change: transform;
         }
       `}</style>

@@ -6,7 +6,12 @@ import type { Variants } from "motion/react";
 import { AnimatePresence, motion } from "motion/react";
 import { useState } from "react";
 import type { Product } from "../backend.d";
-import { parsePrice, useCart } from "../context/CartContext";
+import {
+  WEIGHT_OPTIONS,
+  type WeightOption,
+  parsePrice,
+  useCart,
+} from "../context/CartContext";
 
 const PRODUCT_IMAGES: Record<string, string> = {
   "Turmeric Powder": "/assets/generated/product-turmeric.dim_400x300.jpg",
@@ -45,6 +50,13 @@ const CATEGORY_BTN: Record<string, string> = {
   Masalas: "bg-rose-500 hover:bg-rose-600 text-white",
   Beverages: "bg-teal-600 hover:bg-teal-700 text-white",
   Wellness: "bg-green-600 hover:bg-green-700 text-white",
+};
+
+const CATEGORY_WEIGHT_ACTIVE: Record<string, string> = {
+  Spices: "bg-orange-500 text-white border-orange-500",
+  Masalas: "bg-rose-500 text-white border-rose-500",
+  Beverages: "bg-teal-600 text-white border-teal-600",
+  Wellness: "bg-green-600 text-white border-green-600",
 };
 
 const CATEGORY_PRICE_COLOR: Record<string, string> = {
@@ -151,12 +163,46 @@ const cardVariants: Variants = {
 
 const skeletonKeys = ["s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8"];
 
+function WeightSelector({
+  category,
+  selected,
+  onSelect,
+}: {
+  category: string;
+  selected: WeightOption;
+  onSelect: (w: WeightOption) => void;
+}) {
+  const activeClass =
+    CATEGORY_WEIGHT_ACTIVE[category] ??
+    "bg-primary text-primary-foreground border-primary";
+  return (
+    <div className="flex gap-1.5 mt-3" data-ocid="products.weight.toggle">
+      {WEIGHT_OPTIONS.map((w) => (
+        <button
+          key={w.grams}
+          type="button"
+          onClick={() => onSelect(w)}
+          className={`flex-1 text-xs font-semibold py-1.5 rounded-lg border transition-all duration-150 ${
+            selected.grams === w.grams
+              ? activeClass
+              : "bg-background border-border text-foreground/70 hover:border-primary/40"
+          }`}
+        >
+          {w.label}
+        </button>
+      ))}
+    </div>
+  );
+}
+
 function AddToCartButton({
   product,
+  weight,
   btnClass,
   ocid,
 }: {
   product: Product;
+  weight: WeightOption;
   btnClass: string;
   ocid: string;
 }) {
@@ -164,7 +210,7 @@ function AddToCartButton({
   const [added, setAdded] = useState(false);
 
   const handleAdd = () => {
-    addToCart(product);
+    addToCart(product, weight);
     setAdded(true);
     setTimeout(() => setAdded(false), 1000);
   };
@@ -175,7 +221,7 @@ function AddToCartButton({
       disabled={!product.isAvailable || added}
       data-ocid={ocid}
       onClick={handleAdd}
-      className={`w-full text-sm font-semibold rounded-xl mt-3 ${btnClass} transition-all duration-200 disabled:opacity-50`}
+      className={`w-full text-sm font-semibold rounded-xl mt-2 ${btnClass} transition-all duration-200 disabled:opacity-50`}
     >
       {!product.isAvailable
         ? "Out of Stock"
@@ -188,6 +234,9 @@ function AddToCartButton({
 
 export function ProductsSection() {
   const [activeCategory, setActiveCategory] = useState("All");
+  const [selectedWeights, setSelectedWeights] = useState<
+    Record<string, WeightOption>
+  >({});
   const { data: backendProducts, isLoading } = useGetProducts();
 
   const products =
@@ -202,6 +251,12 @@ export function ProductsSection() {
     activeCategory === "All"
       ? products
       : products.filter((p) => p.category === activeCategory);
+
+  const getWeight = (productId: string): WeightOption =>
+    selectedWeights[productId] ?? WEIGHT_OPTIONS[0];
+
+  const setWeight = (productId: string, w: WeightOption) =>
+    setSelectedWeights((prev) => ({ ...prev, [productId]: w }));
 
   return (
     <section
@@ -278,6 +333,11 @@ export function ProductsSection() {
           >
             <AnimatePresence mode="popLayout">
               {filtered.map((product, i) => {
+                const productId = String(product.id);
+                const selectedWeight = getWeight(productId);
+                const displayPrice =
+                  parsePrice(product.price) * selectedWeight.multiplier;
+
                 const colorClass =
                   CATEGORY_COLORS[product.category] ??
                   "from-stone-50 to-slate-50 border-slate-200";
@@ -299,7 +359,7 @@ export function ProductsSection() {
                 const imgSrc = PRODUCT_IMAGES[product.name];
                 return (
                   <motion.div
-                    key={String(product.id)}
+                    key={productId}
                     variants={cardVariants}
                     layout
                     data-ocid={`products.item.${i + 1}`}
@@ -335,12 +395,25 @@ export function ProductsSection() {
                       <p className="font-body text-muted-foreground text-sm leading-relaxed flex-1">
                         {product.description}
                       </p>
-                      <div className="flex items-center justify-between mt-4 pt-3 border-t border-border/60">
-                        <span
-                          className={`font-display text-2xl ${priceColorClass} ${priceBgClass}`}
-                        >
-                          &#8377;{parsePrice(product.price)}
-                        </span>
+
+                      {/* Weight selector */}
+                      <WeightSelector
+                        category={product.category}
+                        selected={selectedWeight}
+                        onSelect={(w) => setWeight(productId, w)}
+                      />
+
+                      <div className="flex items-center justify-between mt-3 pt-3 border-t border-border/60">
+                        <div className="flex flex-col">
+                          <span
+                            className={`font-display text-2xl ${priceColorClass} ${priceBgClass}`}
+                          >
+                            &#8377;{displayPrice}
+                          </span>
+                          <span className="text-xs text-muted-foreground mt-0.5 font-body">
+                            for {selectedWeight.label}
+                          </span>
+                        </div>
                         <span
                           className={`text-xs font-semibold px-2.5 py-1 rounded-full ${
                             product.isAvailable
@@ -354,6 +427,7 @@ export function ProductsSection() {
 
                       <AddToCartButton
                         product={product}
+                        weight={selectedWeight}
                         btnClass={btnClass}
                         ocid={`products.primary_button.${i + 1}`}
                       />

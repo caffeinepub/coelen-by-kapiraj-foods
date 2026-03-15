@@ -22,12 +22,24 @@ export function Footer({ onAdminClick }: Props) {
       <div className="container mx-auto px-4 py-14">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10">
           <div>
-            <div className="flex items-center gap-2 mb-4">
-              <img
-                src="/assets/generated/ecoelen-logo-transparent.dim_400x400.png"
-                alt="Ècoelen"
-                className="h-9 w-9 object-contain brightness-0 invert"
-              />
+            <div className="flex items-center gap-3 mb-4">
+              {/* Footer logo with bright solid background so it's always visible */}
+              <div
+                className="h-16 w-16 rounded-full flex items-center justify-center shrink-0"
+                style={{
+                  background:
+                    "conic-gradient(from 0deg, #f97316, #eab308, #ef4444, #22c55e, #06b6d4, #a855f7, #f97316)",
+                  padding: "3px",
+                }}
+              >
+                <div className="h-full w-full rounded-full bg-white flex items-center justify-center">
+                  <img
+                    src="/assets/generated/ecoelen-logo-transparent.dim_200x200.png"
+                    alt="Ècoelen"
+                    className="h-11 w-11 object-contain"
+                  />
+                </div>
+              </div>
               <div>
                 <p className="font-display font-bold text-xl leading-none text-white">
                   Ècoelen

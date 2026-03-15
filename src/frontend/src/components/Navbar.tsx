@@ -44,32 +44,40 @@ export function Navbar() {
         }`}
       >
         <nav className="container mx-auto flex items-center justify-between px-4 py-2 md:py-3">
-          {/* Big colorful logo */}
-          <button
+          {/* Logo — always visible */}
+          <motion.button
             type="button"
             data-ocid="nav.link"
             onClick={() => handleNavClick("home")}
-            className="flex items-center gap-3 group"
+            className="flex items-center gap-3 group relative z-10"
+            initial={{ opacity: 0, x: -16 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
           >
             {/* Logo image with colorful ring/glow */}
-            <div className="relative flex-shrink-0">
+            <div
+              className="relative flex-shrink-0"
+              style={{ isolation: "isolate" }}
+            >
               {/* Animated rainbow ring */}
               <div
-                className="absolute inset-0 rounded-full animate-spin"
+                className="absolute inset-0 rounded-full"
                 style={{
                   background:
                     "conic-gradient(from 0deg, #f97316, #eab308, #ef4444, #22c55e, #06b6d4, #a855f7, #f97316)",
                   padding: "3px",
                   animation: "spin 4s linear infinite",
                   borderRadius: "9999px",
+                  zIndex: 0,
                 }}
               />
               {/* Glow blur layer */}
               <div
-                className="absolute -inset-2 rounded-full opacity-60 blur-md"
+                className="absolute -inset-2 rounded-full opacity-50 blur-md"
                 style={{
                   background:
                     "conic-gradient(from 0deg, #f97316, #eab308, #ef4444, #22c55e, #06b6d4, #a855f7, #f97316)",
+                  zIndex: -1,
                 }}
               />
               <div
@@ -77,6 +85,7 @@ export function Navbar() {
                 style={{
                   background:
                     "conic-gradient(from 0deg, #f97316, #eab308, #ef4444, #22c55e, #06b6d4, #a855f7, #f97316)",
+                  zIndex: 1,
                 }}
               >
                 <div className="rounded-full bg-white p-1">
@@ -90,7 +99,10 @@ export function Navbar() {
             </div>
 
             {/* Brand text */}
-            <div className="flex flex-col leading-none">
+            <div
+              className="relative flex flex-col leading-none"
+              style={{ zIndex: 2 }}
+            >
               <span
                 className="font-display font-extrabold text-2xl md:text-3xl tracking-tight"
                 style={{
@@ -101,6 +113,8 @@ export function Navbar() {
                   WebkitTextFillColor: "transparent",
                   backgroundClip: "text",
                   filter: "drop-shadow(0 1px 4px rgba(249,115,22,0.4))",
+                  display: "block",
+                  position: "relative",
                 }}
               >
                 Ècoelen
@@ -113,7 +127,7 @@ export function Navbar() {
                 by Kapiraj Foods
               </span>
             </div>
-          </button>
+          </motion.button>
 
           <ul className="hidden md:flex items-center gap-1">
             {navLinks.map((link) => (

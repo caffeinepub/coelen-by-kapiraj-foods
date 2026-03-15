@@ -31,7 +31,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
-import { parsePrice, useCart } from "../context/CartContext";
+import { itemPrice, parsePrice, useCart } from "../context/CartContext";
 
 interface Props {
   open: boolean;
@@ -71,9 +71,9 @@ export function CartDrawer({ open, onClose }: Props) {
         phone,
         address,
         items: cartItems.map((i) => ({
-          productName: i.product.name,
+          productName: `${i.product.name} (${i.weight.label})`,
           quantity: String(i.quantity),
-          price: i.product.price,
+          price: String(parsePrice(i.product.price) * i.weight.multiplier),
         })),
       });
       clearCart();
@@ -95,11 +95,13 @@ export function CartDrawer({ open, onClose }: Props) {
     }
     try {
       const items = cartItems.map((i) => ({
-        productName: i.product.name,
+        productName: `${i.product.name} (${i.weight.label})`,
         productDescription: i.product.description || i.product.name,
         currency: "inr",
         quantity: BigInt(i.quantity),
-        priceInCents: BigInt(Math.round(parsePrice(i.product.price) * 100)),
+        priceInCents: BigInt(
+          Math.round(parsePrice(i.product.price) * i.weight.multiplier * 100),
+        ),
       }));
       const checkoutUrl = await createCheckout.mutateAsync(items);
       window.location.href = checkoutUrl;
@@ -155,7 +157,7 @@ export function CartDrawer({ open, onClose }: Props) {
               <div className="px-6 py-4 space-y-4">
                 {cartItems.map((item, i) => (
                   <div
-                    key={String(item.product.id)}
+                    key={`${String(item.product.id)}-${item.weight.grams}`}
                     data-ocid={`cart.item.${i + 1}`}
                     className="flex gap-3 items-start bg-muted/40 rounded-xl p-3"
                   >
@@ -163,14 +165,16 @@ export function CartDrawer({ open, onClose }: Props) {
                       <p className="font-display font-semibold text-sm text-foreground truncate">
                         {item.product.name}
                       </p>
-                      <p className="text-xs font-body text-muted-foreground mt-0.5">
-                        {item.product.category}
-                      </p>
+                      <div className="flex items-center gap-2 mt-0.5">
+                        <p className="text-xs font-body text-muted-foreground">
+                          {item.product.category}
+                        </p>
+                        <span className="inline-block text-xs font-semibold bg-primary/10 text-primary rounded px-1.5 py-0.5">
+                          {item.weight.label}
+                        </span>
+                      </div>
                       <p className="font-display font-bold text-primary mt-1">
-                        ₹
-                        {(
-                          parsePrice(item.product.price) * item.quantity
-                        ).toFixed(0)}
+                        ₹{itemPrice(item).toFixed(0)}
                       </p>
                     </div>
                     <div className="flex items-center gap-2">
@@ -179,7 +183,11 @@ export function CartDrawer({ open, onClose }: Props) {
                           type="button"
                           className="px-2 py-1.5 hover:bg-muted transition-colors"
                           onClick={() =>
-                            updateQuantity(item.product.id, item.quantity - 1)
+                            updateQuantity(
+                              item.product.id,
+                              item.weight.grams,
+                              item.quantity - 1,
+                            )
                           }
                         >
                           <Minus className="w-3 h-3" />
@@ -191,7 +199,11 @@ export function CartDrawer({ open, onClose }: Props) {
                           type="button"
                           className="px-2 py-1.5 hover:bg-muted transition-colors"
                           onClick={() =>
-                            updateQuantity(item.product.id, item.quantity + 1)
+                            updateQuantity(
+                              item.product.id,
+                              item.weight.grams,
+                              item.quantity + 1,
+                            )
                           }
                         >
                           <Plus className="w-3 h-3" />
@@ -200,7 +212,9 @@ export function CartDrawer({ open, onClose }: Props) {
                       <button
                         type="button"
                         className="p-1.5 text-destructive hover:bg-destructive/10 rounded-md transition-colors"
-                        onClick={() => removeFromCart(item.product.id)}
+                        onClick={() =>
+                          removeFromCart(item.product.id, item.weight.grams)
+                        }
                         data-ocid={`cart.delete_button.${i + 1}`}
                       >
                         <Trash2 className="w-4 h-4" />
@@ -298,7 +312,6 @@ export function CartDrawer({ open, onClose }: Props) {
 
             {/* Sticky action bar — outside ScrollArea */}
             <div className="flex-shrink-0 px-6 py-4 border-t border-border bg-background space-y-3">
-              {/* Two action buttons */}
               <div className="grid grid-cols-2 gap-3">
                 <Button
                   variant="outline"
