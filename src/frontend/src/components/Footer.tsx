@@ -23,43 +23,29 @@ export function Footer({ onAdminClick }: Props) {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10">
           <div>
             <div className="flex items-center gap-3 mb-4">
-              {/* Footer logo — solid ring so it's always visible on dark background */}
+              {/* Footer logo: white background so it stands out on dark footer */}
               <div
-                className="rounded-full p-[3px] shrink-0"
-                style={{
-                  background:
-                    "conic-gradient(from 0deg, #f97316, #eab308, #ef4444, #22c55e, #06b6d4, #a855f7, #f97316)",
-                }}
+                className="bg-white rounded-2xl px-4 py-3 shadow-xl"
+                style={{ display: "inline-block" }}
               >
-                <div className="h-14 w-14 rounded-full bg-white flex items-center justify-center">
-                  <img
-                    src="/assets/generated/ecoelen-logo-transparent.dim_200x200.png"
-                    alt="Ècoelen"
-                    className="h-11 w-11 object-contain"
-                  />
-                </div>
-              </div>
-              <div>
-                {/* Plain white text — no gradient-text needed in dark footer */}
-                <p className="font-display font-bold text-xl leading-none text-white">
-                  Ècoelen
-                </p>
-                <p className="text-[10px] tracking-widest uppercase text-white/50">
-                  by Kapiraj Foods
-                </p>
-                <p className="text-[10px] tracking-widest uppercase text-white/40 mt-0.5">
-                  Est. 2026
-                </p>
+                <img
+                  src="/assets/generated/ecoelen-logo-transparent.dim_600x300.png"
+                  alt="Ècoelen"
+                  className="h-20 w-auto object-contain block"
+                />
               </div>
             </div>
-            <p className="font-body text-sm text-white/60 leading-relaxed max-w-xs">
+            <p className="text-sm text-white/60 leading-relaxed max-w-xs">
               Pure, natural, and powerful food powders sourced from the finest
               farms across India.
+            </p>
+            <p className="text-[10px] tracking-widest uppercase text-white/40 mt-2">
+              by Kapiraj Foods · Est. 2026
             </p>
           </div>
 
           <div>
-            <p className="font-body font-semibold text-sm text-white/80 uppercase tracking-wider mb-4">
+            <p className="font-semibold text-sm text-white/80 uppercase tracking-wider mb-4">
               Navigation
             </p>
             <ul className="space-y-2">
@@ -69,7 +55,7 @@ export function Footer({ onAdminClick }: Props) {
                     type="button"
                     data-ocid={`footer.${link.page}.link`}
                     onClick={() => setActivePage(link.page)}
-                    className="font-body text-sm text-white/60 hover:text-white transition-colors duration-200"
+                    className="text-sm text-white/60 hover:text-white transition-colors duration-200"
                   >
                     {link.label}
                   </button>
@@ -79,7 +65,7 @@ export function Footer({ onAdminClick }: Props) {
           </div>
 
           <div>
-            <p className="font-body font-semibold text-sm text-white/80 uppercase tracking-wider mb-4">
+            <p className="font-semibold text-sm text-white/80 uppercase tracking-wider mb-4">
               Our Promise
             </p>
             <div className="space-y-2">
@@ -91,7 +77,7 @@ export function Footer({ onAdminClick }: Props) {
               ].map((tag) => (
                 <div key={tag} className="flex items-center gap-2">
                   <Leaf size={14} className="text-accent shrink-0" />
-                  <span className="font-body text-sm text-white/60">{tag}</span>
+                  <span className="text-sm text-white/60">{tag}</span>
                 </div>
               ))}
             </div>
@@ -99,7 +85,7 @@ export function Footer({ onAdminClick }: Props) {
         </div>
 
         <div className="border-t border-white/10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="font-body text-xs text-white/40">
+          <p className="text-xs text-white/40">
             © {year} Ècoelen by Kapiraj Foods. All rights reserved.
           </p>
           <div className="flex items-center gap-4">
@@ -108,13 +94,13 @@ export function Footer({ onAdminClick }: Props) {
                 type="button"
                 data-ocid="footer.admin.button"
                 onClick={onAdminClick}
-                className="font-body text-xs text-white/30 hover:text-white/60 transition-colors flex items-center gap-1"
+                className="text-xs text-white/30 hover:text-white/60 transition-colors flex items-center gap-1"
               >
                 <Settings size={12} />
                 Admin
               </button>
             )}
-            <p className="font-body text-xs text-white/40">
+            <p className="text-xs text-white/40">
               Built with ❤️ using{" "}
               <a
                 href={utmLink}

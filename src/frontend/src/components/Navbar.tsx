@@ -43,67 +43,22 @@ export function Navbar() {
             : "bg-gradient-to-b from-black/50 to-transparent"
         }`}
       >
-        <nav className="container mx-auto flex items-center justify-between px-4 py-2 md:py-3">
-          {/* Logo — always visible */}
+        <nav className="container mx-auto flex items-center justify-between px-4 py-1 md:py-2">
+          {/* Logo — always visible, large */}
           <motion.button
             type="button"
             data-ocid="nav.link"
             onClick={() => handleNavClick("home")}
-            className="flex items-center gap-3 group"
+            className="flex items-center gap-2 group"
             initial={{ opacity: 0, x: -16 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.4, ease: "easeOut" }}
           >
-            {/* Logo image with colorful spinning ring */}
-            <div className="relative flex-shrink-0">
-              {/* Spinning rainbow ring — uses CSS class so the keyframe is guaranteed */}
-              <div
-                className="rainbow-spin absolute -inset-1 rounded-full"
-                style={{
-                  background:
-                    "conic-gradient(from 0deg, #f97316, #eab308, #ef4444, #22c55e, #06b6d4, #a855f7, #f97316)",
-                  borderRadius: "9999px",
-                }}
-              />
-              {/* Logo container sits on top of the spinning ring */}
-              <div
-                className="relative rounded-full p-[3px]"
-                style={{
-                  background:
-                    "conic-gradient(from 0deg, #f97316, #eab308, #ef4444, #22c55e, #06b6d4, #a855f7, #f97316)",
-                  zIndex: 1,
-                }}
-              >
-                <div className="rounded-full bg-white p-1">
-                  <img
-                    src="/assets/generated/ecoelen-logo-transparent.dim_200x200.png"
-                    alt="Ècoelen"
-                    className="h-20 w-20 md:h-28 md:w-28 object-contain"
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* Brand text — NO filter on gradient text to prevent glitch */}
-            <div className="flex flex-col leading-none">
-              <span
-                className="font-display font-extrabold text-3xl md:text-4xl tracking-tight gradient-text"
-                style={{
-                  background: showScrolled
-                    ? "linear-gradient(135deg, #f97316 0%, #ef4444 35%, #eab308 65%, #22c55e 100%)"
-                    : "linear-gradient(135deg, #fde68a 0%, #fbbf24 30%, #fb923c 60%, #f87171 100%)",
-                }}
-              >
-                Ècoelen
-              </span>
-              <span
-                className={`text-[11px] font-body tracking-widest uppercase transition-colors duration-300 font-semibold ${
-                  showScrolled ? "text-muted-foreground" : "text-amber-200/90"
-                }`}
-              >
-                by Kapiraj Foods
-              </span>
-            </div>
+            <img
+              src="/assets/generated/ecoelen-logo-transparent.dim_600x300.png"
+              alt="Ècoelen"
+              className="h-24 md:h-32 w-auto object-contain"
+            />
           </motion.button>
 
           <ul className="hidden md:flex items-center gap-1">

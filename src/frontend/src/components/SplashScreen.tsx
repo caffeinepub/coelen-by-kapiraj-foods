@@ -40,66 +40,20 @@ export function SplashScreen() {
             transition={{ duration: 0.5, ease: [0.34, 1.56, 0.64, 1] }}
             className="flex flex-col items-center gap-5 relative"
           >
-            {/* Logo with animated ring — uses framer-motion rotate for reliability */}
-            <div className="relative">
-              {/* Outer glow (decorative only, behind everything) */}
-              <div
-                className="absolute -inset-6 rounded-full opacity-30 blur-xl pointer-events-none"
-                style={{
-                  background:
-                    "conic-gradient(from 0deg, #f97316, #eab308, #ef4444, #22c55e, #06b6d4, #a855f7, #f97316)",
-                }}
-              />
-              {/* Spinning rainbow ring */}
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{
-                  duration: 3,
-                  repeat: Number.POSITIVE_INFINITY,
-                  ease: "linear",
-                }}
-                className="absolute -inset-2 rounded-full"
-                style={{
-                  background:
-                    "conic-gradient(from 0deg, #f97316, #eab308, #ef4444, #22c55e, #06b6d4, #a855f7, #f97316)",
-                  borderRadius: "9999px",
-                }}
-              />
-              {/* Logo container */}
-              <div
-                className="relative rounded-full p-[3px]"
-                style={{
-                  background:
-                    "conic-gradient(from 0deg, #f97316, #eab308, #ef4444, #22c55e, #06b6d4, #a855f7, #f97316)",
-                  zIndex: 1,
-                }}
-              >
-                <div className="rounded-full bg-[#0a0a0a] p-3">
-                  <img
-                    src="/assets/generated/ecoelen-logo-transparent.dim_200x200.png"
-                    alt="Ècoelen"
-                    className="h-24 w-24 object-contain"
-                  />
-                </div>
-              </div>
-            </div>
+            {/* New rectangular logo — no circular ring wrappers */}
+            <img
+              src="/assets/generated/ecoelen-logo-transparent.dim_600x300.png"
+              alt="Ècoelen"
+              className="h-32 w-auto object-contain"
+            />
 
-            {/* Brand name — NO filter property to prevent gradient-text glitch */}
+            {/* Brand tagline */}
             <motion.div
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.5 }}
               className="flex flex-col items-center gap-1"
             >
-              <span
-                className="font-display font-extrabold text-5xl tracking-tight gradient-text"
-                style={{
-                  background:
-                    "linear-gradient(135deg, #f97316 0%, #ef4444 30%, #eab308 60%, #22c55e 100%)",
-                }}
-              >
-                Ècoelen
-              </span>
               <span className="text-sm font-body tracking-widest uppercase text-amber-200/60 font-medium">
                 by Kapiraj Foods
               </span>
