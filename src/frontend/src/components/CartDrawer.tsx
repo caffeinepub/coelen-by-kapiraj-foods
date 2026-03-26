@@ -1,6 +1,3 @@
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -9,7 +6,6 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-import { Textarea } from "@/components/ui/textarea";
 import {
   Tooltip,
   TooltipContent,
@@ -112,10 +108,21 @@ export function CartDrawer({ open, onClose }: Props) {
   };
 
   const isPayingOnline = createCheckout.isPending;
-
-  // Price breakout — GST at 5% (inclusive), total never changes
   const itemsSubtotal = Math.round(cartTotal * (100 / 105));
   const gstAmount = cartTotal - itemsSubtotal;
+
+  const inputStyle = {
+    width: "100%",
+    padding: "10px 14px",
+    borderRadius: "10px",
+    fontSize: "14px",
+    fontFamily: "inherit",
+    outline: "none",
+    background: "rgba(15,76,53,0.04)",
+    border: "1.5px solid oklch(0.88 0.04 155)",
+    color: "oklch(0.20 0.08 155)",
+    transition: "border-color 0.2s",
+  } as React.CSSProperties;
 
   return (
     <Sheet open={open} onOpenChange={(v) => !v && onClose()}>
@@ -123,14 +130,33 @@ export function CartDrawer({ open, onClose }: Props) {
         side="right"
         className="w-full sm:max-w-md flex flex-col p-0 h-full"
         data-ocid="cart.drawer"
+        style={{
+          background: "oklch(0.97 0.018 90)",
+          borderLeft: "1.5px solid oklch(0.90 0.04 155)",
+        }}
       >
         {/* Header */}
-        <SheetHeader className="px-6 py-5 border-b border-border flex-shrink-0">
-          <SheetTitle className="font-display text-xl flex items-center gap-2">
-            <ShoppingBag className="w-5 h-5 text-primary" />
+        <SheetHeader
+          className="px-6 py-5 flex-shrink-0"
+          style={{
+            borderBottom: "1.5px solid oklch(0.90 0.04 155)",
+            background: "white",
+          }}
+        >
+          <SheetTitle
+            className="font-display text-xl flex items-center gap-2"
+            style={{ color: "oklch(0.18 0.08 155)" }}
+          >
+            <ShoppingBag
+              className="w-5 h-5"
+              style={{ color: "oklch(0.30 0.10 155)" }}
+            />
             Your Cart
             {cartItems.length > 0 && (
-              <span className="ml-auto text-sm font-body text-muted-foreground">
+              <span
+                className="ml-auto text-sm font-body"
+                style={{ color: "oklch(0.55 0.06 155)" }}
+              >
                 {cartItems.length} item{cartItems.length !== 1 ? "s" : ""}
               </span>
             )}
@@ -140,53 +166,99 @@ export function CartDrawer({ open, onClose }: Props) {
         {cartItems.length === 0 ? (
           <div
             data-ocid="cart.empty_state"
-            className="flex-1 flex flex-col items-center justify-center gap-4 text-muted-foreground px-6"
+            className="flex-1 flex flex-col items-center justify-center gap-4 px-6"
+            style={{ color: "oklch(0.60 0.06 155)" }}
           >
             <ShoppingBag className="w-16 h-16 opacity-20" />
-            <p className="font-display text-lg">Your cart is empty</p>
-            <p className="font-body text-sm text-center">
+            <p
+              className="font-display text-lg"
+              style={{ color: "oklch(0.30 0.10 155)" }}
+            >
+              Your cart is empty
+            </p>
+            <p
+              className="font-body text-sm text-center"
+              style={{ color: "oklch(0.55 0.06 155)" }}
+            >
               Add some products to get started!
             </p>
-            <Button
-              variant="outline"
+            <button
+              type="button"
               onClick={onClose}
               data-ocid="cart.close_button"
+              className="px-6 py-2.5 rounded-full text-sm font-semibold font-body transition-all"
+              style={{
+                border: "2px solid oklch(0.30 0.10 155)",
+                color: "oklch(0.30 0.10 155)",
+                background: "transparent",
+              }}
             >
               Continue Shopping
-            </Button>
+            </button>
           </div>
         ) : (
           <>
-            {/* Scrollable content area */}
             <ScrollArea className="flex-1 min-h-0">
               <div className="px-6 py-4 space-y-4">
+                {/* Items */}
                 {cartItems.map((item, i) => (
                   <div
                     key={`${String(item.product.id)}-${item.weight.grams}`}
                     data-ocid={`cart.item.${i + 1}`}
-                    className="flex gap-3 items-start bg-muted/40 rounded-xl p-3"
+                    className="flex gap-3 items-start rounded-xl p-3"
+                    style={{
+                      background: "white",
+                      border: "1.5px solid oklch(0.90 0.04 155)",
+                      boxShadow: "0 2px 8px rgba(15,76,53,0.06)",
+                    }}
                   >
                     <div className="flex-1 min-w-0">
-                      <p className="font-display font-semibold text-sm text-foreground truncate">
+                      <p
+                        className="font-display font-semibold text-sm truncate"
+                        style={{ color: "oklch(0.20 0.08 155)" }}
+                      >
                         {item.product.name}
                       </p>
                       <div className="flex items-center gap-2 mt-0.5">
-                        <p className="text-xs font-body text-muted-foreground">
+                        <p
+                          className="text-xs font-body"
+                          style={{ color: "oklch(0.55 0.06 155)" }}
+                        >
                           {item.product.category}
                         </p>
-                        <span className="inline-block text-xs font-semibold bg-primary/10 text-primary rounded px-1.5 py-0.5">
+                        <span
+                          className="inline-block text-xs font-semibold font-body rounded px-1.5 py-0.5"
+                          style={{
+                            background: "rgba(15,76,53,0.08)",
+                            color: "oklch(0.30 0.10 155)",
+                          }}
+                        >
                           {item.weight.label}
                         </span>
                       </div>
-                      <p className="font-display font-bold text-primary mt-1">
-                        ₹{itemPrice(item).toFixed(0)}
+                      <p
+                        className="font-display font-bold mt-1"
+                        style={{ color: "oklch(0.30 0.10 155)" }}
+                      >
+                        &#8377;{itemPrice(item).toFixed(0)}
                       </p>
                     </div>
                     <div className="flex items-center gap-2">
-                      <div className="flex items-center border border-border rounded-lg overflow-hidden">
+                      <div
+                        className="flex items-center rounded-lg overflow-hidden"
+                        style={{ border: "1.5px solid oklch(0.88 0.04 155)" }}
+                      >
                         <button
                           type="button"
-                          className="px-2 py-1.5 hover:bg-muted transition-colors"
+                          className="px-2 py-1.5 transition-colors"
+                          style={{ background: "transparent" }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.background =
+                              "rgba(15,76,53,0.06)";
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.background = "transparent";
+                          }}
                           onClick={() =>
                             updateQuantity(
                               item.product.id,
@@ -195,14 +267,28 @@ export function CartDrawer({ open, onClose }: Props) {
                             )
                           }
                         >
-                          <Minus className="w-3 h-3" />
+                          <Minus
+                            className="w-3 h-3"
+                            style={{ color: "oklch(0.40 0.08 155)" }}
+                          />
                         </button>
-                        <span className="px-3 py-1 text-sm font-medium min-w-[2rem] text-center">
+                        <span
+                          className="px-3 py-1 text-sm font-medium min-w-[2rem] text-center font-body"
+                          style={{ color: "oklch(0.22 0.08 155)" }}
+                        >
                           {item.quantity}
                         </span>
                         <button
                           type="button"
-                          className="px-2 py-1.5 hover:bg-muted transition-colors"
+                          className="px-2 py-1.5 transition-colors"
+                          style={{ background: "transparent" }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.background =
+                              "rgba(15,76,53,0.06)";
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.background = "transparent";
+                          }}
                           onClick={() =>
                             updateQuantity(
                               item.product.id,
@@ -211,12 +297,23 @@ export function CartDrawer({ open, onClose }: Props) {
                             )
                           }
                         >
-                          <Plus className="w-3 h-3" />
+                          <Plus
+                            className="w-3 h-3"
+                            style={{ color: "oklch(0.40 0.08 155)" }}
+                          />
                         </button>
                       </div>
                       <button
                         type="button"
-                        className="p-1.5 text-destructive hover:bg-destructive/10 rounded-md transition-colors"
+                        className="p-1.5 rounded-md transition-colors"
+                        style={{ color: "oklch(0.55 0.22 25)" }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.background =
+                            "rgba(239,68,68,0.08)";
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.background = "transparent";
+                        }}
                         onClick={() =>
                           removeFromCart(item.product.id, item.weight.grams)
                         }
@@ -228,135 +325,204 @@ export function CartDrawer({ open, onClose }: Props) {
                   </div>
                 ))}
 
-                <Separator className="my-5" />
+                <Separator style={{ background: "oklch(0.90 0.04 155)" }} />
 
-                {/* Price Breakout Card */}
-                <div className="rounded-xl bg-muted/50 border border-border/60 overflow-hidden">
-                  <div className="px-4 py-2.5 bg-primary/8 border-b border-border/40">
-                    <p className="font-display font-semibold text-sm text-foreground">
+                {/* Price breakout */}
+                <div
+                  className="rounded-xl overflow-hidden"
+                  style={{ border: "1.5px solid oklch(0.88 0.04 155)" }}
+                >
+                  <div
+                    className="px-4 py-2.5"
+                    style={{
+                      background: "rgba(15,76,53,0.06)",
+                      borderBottom: "1px solid oklch(0.90 0.04 155)",
+                    }}
+                  >
+                    <p
+                      className="font-display font-semibold text-sm"
+                      style={{ color: "oklch(0.20 0.08 155)" }}
+                    >
                       Price Breakout
                     </p>
                   </div>
-                  <div className="px-4 py-3 space-y-2.5">
-                    {/* Items subtotal */}
+                  <div
+                    className="px-4 py-3 space-y-2.5"
+                    style={{ background: "white" }}
+                  >
                     <div className="flex justify-between items-center">
-                      <span className="font-body text-sm text-muted-foreground">
+                      <span
+                        className="font-body text-sm"
+                        style={{ color: "oklch(0.55 0.06 155)" }}
+                      >
                         Items
                       </span>
-                      <span className="font-body text-sm font-medium text-foreground">
-                        ₹{itemsSubtotal.toFixed(0)}
+                      <span
+                        className="font-body text-sm font-medium"
+                        style={{ color: "oklch(0.22 0.08 155)" }}
+                      >
+                        &#8377;{itemsSubtotal.toFixed(0)}
                       </span>
                     </div>
-
-                    {/* GST */}
                     <div className="flex justify-between items-center">
-                      <span className="font-body text-sm text-muted-foreground">
+                      <span
+                        className="font-body text-sm"
+                        style={{ color: "oklch(0.55 0.06 155)" }}
+                      >
                         GST (5% incl.)
                       </span>
-                      <span className="font-body text-sm font-medium text-foreground">
-                        ₹{gstAmount.toFixed(0)}
+                      <span
+                        className="font-body text-sm font-medium"
+                        style={{ color: "oklch(0.22 0.08 155)" }}
+                      >
+                        &#8377;{gstAmount.toFixed(0)}
                       </span>
                     </div>
-
-                    {/* Delivery */}
                     <div className="flex justify-between items-center">
-                      <span className="font-body text-sm text-muted-foreground">
+                      <span
+                        className="font-body text-sm"
+                        style={{ color: "oklch(0.55 0.06 155)" }}
+                      >
                         Delivery charges
                       </span>
-                      <span className="font-body text-sm font-bold text-green-600 dark:text-green-400">
+                      <span
+                        className="font-body text-sm font-bold"
+                        style={{ color: "oklch(0.52 0.17 155)" }}
+                      >
                         FREE
                       </span>
                     </div>
-
-                    <Separator className="my-1" />
-
-                    {/* Total */}
+                    <Separator style={{ background: "oklch(0.90 0.04 155)" }} />
                     <div className="flex justify-between items-center">
-                      <span className="font-display font-bold text-sm text-foreground">
+                      <span
+                        className="font-display font-bold text-sm"
+                        style={{ color: "oklch(0.20 0.08 155)" }}
+                      >
                         Total (incl. all taxes)
                       </span>
-                      <span className="font-display font-bold text-lg text-primary">
-                        ₹{cartTotal.toFixed(0)}
+                      <span
+                        className="font-display font-bold text-lg"
+                        style={{ color: "oklch(0.30 0.10 155)" }}
+                      >
+                        &#8377;{cartTotal.toFixed(0)}
                       </span>
                     </div>
-
-                    {/* Assurance note */}
                     <div className="flex items-center gap-1.5 pt-0.5">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-green-500 flex-shrink-0" />
-                      <p className="text-xs text-muted-foreground font-body">
+                      <CheckCircle2
+                        className="w-3.5 h-3.5 flex-shrink-0"
+                        style={{ color: "oklch(0.52 0.17 155)" }}
+                      />
+                      <p
+                        className="text-xs font-body"
+                        style={{ color: "oklch(0.60 0.05 100)" }}
+                      >
                         Price is inclusive of all taxes &amp; charges
                       </p>
                     </div>
                   </div>
                 </div>
 
-                <Separator className="my-2" />
+                <Separator style={{ background: "oklch(0.90 0.04 155)" }} />
 
-                {/* Delivery details form */}
+                {/* Delivery form */}
                 <div data-ocid="cart.checkout_form" className="space-y-4 pb-2">
-                  <h3 className="font-display font-semibold text-base">
+                  <h3
+                    className="font-display font-semibold text-base"
+                    style={{ color: "oklch(0.20 0.08 155)" }}
+                  >
                     Delivery Details
                   </h3>
+
                   <div>
-                    <Label
+                    <label
                       htmlFor="cart-name"
-                      className="font-body text-sm mb-1.5 block"
+                      className="font-body text-sm mb-1.5 block font-medium"
+                      style={{ color: "oklch(0.40 0.06 155)" }}
                     >
                       Full Name *
-                    </Label>
-                    <Input
+                    </label>
+                    <input
                       id="cart-name"
                       data-ocid="cart.input"
                       placeholder="Your full name"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
-                      className={errors.name ? "border-destructive" : ""}
+                      style={{
+                        ...inputStyle,
+                        borderColor: errors.name
+                          ? "oklch(0.55 0.22 25)"
+                          : "oklch(0.88 0.04 155)",
+                      }}
                     />
                     {errors.name && (
-                      <p className="text-xs text-destructive mt-1">
+                      <p
+                        className="text-xs mt-1 font-body"
+                        style={{ color: "oklch(0.55 0.22 25)" }}
+                      >
                         {errors.name}
                       </p>
                     )}
                   </div>
+
                   <div>
-                    <Label
+                    <label
                       htmlFor="cart-phone"
-                      className="font-body text-sm mb-1.5 block"
+                      className="font-body text-sm mb-1.5 block font-medium"
+                      style={{ color: "oklch(0.40 0.06 155)" }}
                     >
                       Phone Number *
-                    </Label>
-                    <Input
+                    </label>
+                    <input
                       id="cart-phone"
                       data-ocid="cart.input"
                       placeholder="10-digit mobile number"
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
-                      className={errors.phone ? "border-destructive" : ""}
+                      style={{
+                        ...inputStyle,
+                        borderColor: errors.phone
+                          ? "oklch(0.55 0.22 25)"
+                          : "oklch(0.88 0.04 155)",
+                      }}
                     />
                     {errors.phone && (
-                      <p className="text-xs text-destructive mt-1">
+                      <p
+                        className="text-xs mt-1 font-body"
+                        style={{ color: "oklch(0.55 0.22 25)" }}
+                      >
                         {errors.phone}
                       </p>
                     )}
                   </div>
+
                   <div>
-                    <Label
+                    <label
                       htmlFor="cart-address"
-                      className="font-body text-sm mb-1.5 block"
+                      className="font-body text-sm mb-1.5 block font-medium"
+                      style={{ color: "oklch(0.40 0.06 155)" }}
                     >
                       Delivery Address *
-                    </Label>
-                    <Textarea
+                    </label>
+                    <textarea
                       id="cart-address"
                       data-ocid="cart.textarea"
                       placeholder="Full delivery address with pincode"
                       value={address}
                       onChange={(e) => setAddress(e.target.value)}
                       rows={3}
-                      className={errors.address ? "border-destructive" : ""}
+                      style={{
+                        ...inputStyle,
+                        resize: "none",
+                        borderColor: errors.address
+                          ? "oklch(0.55 0.22 25)"
+                          : "oklch(0.88 0.04 155)",
+                      }}
                     />
                     {errors.address && (
-                      <p className="text-xs text-destructive mt-1">
+                      <p
+                        className="text-xs mt-1 font-body"
+                        style={{ color: "oklch(0.55 0.22 25)" }}
+                      >
                         {errors.address}
                       </p>
                     )}
@@ -365,32 +531,43 @@ export function CartDrawer({ open, onClose }: Props) {
               </div>
             </ScrollArea>
 
-            {/* Sticky action bar — outside ScrollArea */}
-            <div className="flex-shrink-0 px-6 py-4 border-t border-border bg-background space-y-3">
+            {/* Sticky action bar */}
+            <div
+              className="flex-shrink-0 px-6 py-4 space-y-3"
+              style={{
+                borderTop: "1.5px solid oklch(0.90 0.04 155)",
+                background: "white",
+              }}
+            >
               <div className="grid grid-cols-2 gap-3">
-                <Button
-                  variant="outline"
-                  className="font-semibold py-5 rounded-xl border-primary/40 hover:bg-primary/5"
+                <button
+                  type="button"
                   data-ocid="cart.submit_button"
                   onClick={handlePlaceOrder}
                   disabled={placeOrder.isPending || isPayingOnline}
+                  className="py-3 rounded-xl font-semibold font-body text-sm transition-all disabled:opacity-60"
+                  style={{
+                    border: "2px solid oklch(0.30 0.10 155)",
+                    color: "oklch(0.30 0.10 155)",
+                    background: "transparent",
+                  }}
                 >
                   {placeOrder.isPending ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    <span className="flex items-center justify-center gap-2">
+                      <Loader2 className="h-4 w-4 animate-spin" />
                       Placing...
-                    </>
+                    </span>
                   ) : (
                     "Place Order (COD)"
                   )}
-                </Button>
+                </button>
 
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <span className="block">
-                        <Button
-                          className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-5 rounded-xl"
+                        <button
+                          type="button"
                           data-ocid="cart.primary_button"
                           onClick={handlePayOnline}
                           disabled={
@@ -398,19 +575,20 @@ export function CartDrawer({ open, onClose }: Props) {
                             isPayingOnline ||
                             placeOrder.isPending
                           }
+                          className="w-full py-3 rounded-xl font-semibold font-body text-sm text-white cta-shimmer disabled:opacity-60"
                         >
                           {isPayingOnline ? (
-                            <>
-                              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                            <span className="flex items-center justify-center gap-2">
+                              <Loader2 className="h-4 w-4 animate-spin" />
                               Redirecting...
-                            </>
+                            </span>
                           ) : (
-                            <>
-                              <CreditCard className="mr-2 h-4 w-4" />
+                            <span className="flex items-center justify-center gap-2">
+                              <CreditCard className="h-4 w-4" />
                               Pay Online
-                            </>
+                            </span>
                           )}
-                        </Button>
+                        </button>
                       </span>
                     </TooltipTrigger>
                     {!stripeConfigured && (
@@ -422,8 +600,12 @@ export function CartDrawer({ open, onClose }: Props) {
                 </TooltipProvider>
               </div>
 
-              <p className="text-center text-xs text-muted-foreground font-body">
-                COD: we'll confirm via phone · Online: secure Stripe checkout
+              <p
+                className="text-center text-xs font-body"
+                style={{ color: "oklch(0.60 0.05 100)" }}
+              >
+                COD: we&apos;ll confirm via phone · Online: secure Stripe
+                checkout
               </p>
             </div>
           </>

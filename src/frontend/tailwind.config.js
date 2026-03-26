@@ -16,8 +16,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        display: ["Fraunces", "Georgia", "serif"],
-        body: ["Figtree", "system-ui", "sans-serif"],
+        display: ["Playfair Display", "Georgia", "serif"],
+        body: ["Plus Jakarta Sans", "system-ui", "sans-serif"],
       },
       colors: {
         border: "oklch(var(--border))",
@@ -70,6 +70,11 @@ export default {
           border: "oklch(var(--sidebar-border))",
           ring: "oklch(var(--sidebar-ring))",
         },
+        forest: "oklch(0.30 0.10 155)",
+        "forest-dark": "oklch(0.20 0.08 155)",
+        saffron: "oklch(0.62 0.19 50)",
+        golden: "oklch(0.83 0.17 85)",
+        cream: "oklch(0.97 0.018 90)",
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -78,8 +83,10 @@ export default {
       },
       boxShadow: {
         xs: "0 1px 2px 0 rgba(0,0,0,0.05)",
-        warm: "0 4px 24px -4px oklch(0.22 0.03 55 / 0.15)",
-        "warm-lg": "0 12px 40px -8px oklch(0.22 0.03 55 / 0.2)",
+        warm: "0 4px 24px -4px rgba(15,76,53,0.18)",
+        "warm-lg": "0 12px 40px -8px rgba(15,76,53,0.25)",
+        glow: "0 0 32px rgba(232,112,10,0.35)",
+        "glow-green": "0 0 32px rgba(15,76,53,0.4)",
       },
       keyframes: {
         "accordion-down": {

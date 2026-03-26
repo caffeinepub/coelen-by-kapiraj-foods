@@ -86,48 +86,43 @@ actor {
   var nextOrderId = 1;
   var nextProductId = 100;
 
-  // Seed product catalog with sample food powder products
+  // Seed product catalog with all 30 food powder products
   let initialProducts : [Product] = [
-    {
-      id = 1;
-      name = "Turmeric Powder";
-      description = "Pure turmeric powder with vibrant color and aroma.";
-      price = "\u{20B9}50 for 200g";
-      category = "Spices";
-      isAvailable = true;
-    },
-    {
-      id = 2;
-      name = "Red Chili Powder";
-      description = "Fiery red chili powder made from quality chilies.";
-      price = "\u{20B9}60 for 200g";
-      category = "Spices";
-      isAvailable = true;
-    },
-    {
-      id = 3;
-      name = "Coriander Powder";
-      description = "Roasted coriander seeds, ground to perfection.";
-      price = "\u{20B9}40 for 200g";
-      category = "Spices";
-      isAvailable = true;
-    },
-    {
-      id = 4;
-      name = "Cumin Powder";
-      description = "Aromatic cumin powder for flavorful Indian dishes.";
-      price = "\u{20B9}55 for 200g";
-      category = "Spices";
-      isAvailable = true;
-    },
-    {
-      id = 5;
-      name = "Garam Masala";
-      description = "Premium blend of authentic Indian spices.";
-      price = "\u{20B9}80 for 100g";
-      category = "Spices";
-      isAvailable = true;
-    },
+    // Spices
+    { id = 1;  name = "Turmeric Powder";      description = "Vibrant golden turmeric, sun-dried and stone-ground. Rich in curcumin for colour and wellness.";                                                                              price = "120"; category = "Spices";     isAvailable = true; },
+    { id = 2;  name = "Kashmiri Chilli Powder"; description = "Bright red, mildly hot Kashmiri chilli that gives dishes a stunning colour without overpowering heat.";                                                                   price = "150"; category = "Spices";     isAvailable = true; },
+    { id = 4;  name = "Coriander Powder";      description = "Earthy, citrusy coriander seeds cleaned and freshly milled to a fine powder. Excellent for curries.";                                                                        price = "110"; category = "Spices";     isAvailable = true; },
+    { id = 6;  name = "Cumin Powder";          description = "Toasted cumin seeds ground to release their nutty, smoky aroma. A kitchen essential.";                                                                                       price = "130"; category = "Spices";     isAvailable = true; },
+    { id = 14; name = "Black Pepper Powder";   description = "Bold and pungent black pepper freshly ground from handpicked whole peppercorns. The king of spices.";                                                                       price = "160"; category = "Spices";     isAvailable = true; },
+    { id = 15; name = "Cardamom Powder";       description = "Fragrant green cardamom pods finely ground to release their floral, sweet aroma. Perfect for sweets, chai, and biryanis.";                                                  price = "350"; category = "Spices";     isAvailable = true; },
+    { id = 16; name = "Fenugreek Powder";      description = "Slightly bitter, nutty fenugreek seeds milled to a smooth powder. A digestive spice essential in Indian cooking.";                                                          price = "100"; category = "Spices";     isAvailable = true; },
+    { id = 17; name = "Dry Ginger Powder";     description = "Sun-dried ginger root ground to a pungent, warming powder. Great for teas, curries, and digestive health.";                                                                 price = "140"; category = "Spices";     isAvailable = true; },
+    // Masalas
+    { id = 3;  name = "Garam Masala";          description = "A warming blend of whole spices slow-roasted and freshly ground. Aromatic and deeply flavourful.";                                                                          price = "180"; category = "Masalas";    isAvailable = true; },
+    { id = 18; name = "Sambar Powder";         description = "Authentic South Indian sambar masala with the perfect balance of lentils, chillies, and aromatic spices.";                                                                   price = "160"; category = "Masalas";    isAvailable = true; },
+    { id = 19; name = "Rasam Powder";          description = "Tangy, peppery rasam masala with cumin, coriander, and dried red chillies. The secret to a comforting South Indian rasam.";                                                 price = "150"; category = "Masalas";    isAvailable = true; },
+    { id = 20; name = "Chole Masala";          description = "Bold, smoky blend of roasted spices crafted for authentic Punjabi chole. Delivers rich, deep flavour.";                                                                    price = "170"; category = "Masalas";    isAvailable = true; },
+    { id = 21; name = "Pav Bhaji Masala";      description = "The signature spice blend for Mumbai-style pav bhaji — buttery, tangy, and beautifully aromatic.";                                                                          price = "165"; category = "Masalas";    isAvailable = true; },
+    { id = 22; name = "Kitchen King Masala";   description = "A versatile all-in-one masala blend that transforms any vegetable or paneer dish into a restaurant-quality meal.";                                                          price = "190"; category = "Masalas";    isAvailable = true; },
+    // Beverages
+    { id = 5;  name = "Chai Masala";           description = "A fragrant blend of ginger, cardamom, cinnamon, and clove — perfect for a comforting cup of chai.";                                                                         price = "200"; category = "Beverages";  isAvailable = true; },
+    { id = 23; name = "Haldi Doodh Mix";       description = "Traditional golden milk mix with turmeric, ashwagandha, and warming spices. Stir into warm milk for a nourishing bedtime drink.";                                         price = "220"; category = "Beverages";  isAvailable = true; },
+    { id = 24; name = "Moringa Latte Mix";     description = "Creamy moringa green latte blend with oat powder and vanilla. A nourishing, earthy alternative to coffee.";                                                                 price = "250"; category = "Beverages";  isAvailable = true; },
+    { id = 25; name = "Tulsi Green Tea Powder"; description = "Antioxidant-rich holy basil combined with fine green tea powder. A calming, immune-boosting drink.";                                                                      price = "230"; category = "Beverages";  isAvailable = true; },
+    { id = 26; name = "Ashwagandha Milk Mix";  description = "Adaptogenic ashwagandha blended with warm spices and honey powder. Mix into milk for a stress-relieving night drink.";                                                     price = "280"; category = "Beverages";  isAvailable = true; },
+    // Wellness
+    { id = 8;  name = "Amla Powder";           description = "Pure Indian gooseberry dried and powdered. A superfood powerhouse for immunity and vitality.";                                                                              price = "160"; category = "Wellness";   isAvailable = true; },
+    { id = 27; name = "Moringa Powder";        description = "Nutrient-dense moringa leaf powder. Rich in iron, calcium, and antioxidants for daily wellness.";                                                                          price = "200"; category = "Wellness";   isAvailable = true; },
+    { id = 28; name = "Ashwagandha Powder";    description = "Pure ashwagandha root powder, an ancient adaptogen that reduces stress and boosts energy and immunity.";                                                                   price = "250"; category = "Wellness";   isAvailable = true; },
+    { id = 29; name = "Neem Powder";           description = "Pure neem leaf powder known for its powerful antibacterial, antifungal, and skin-purifying properties.";                                                                   price = "120"; category = "Wellness";   isAvailable = true; },
+    { id = 30; name = "Wheatgrass Powder";     description = "Young wheat shoots dried and powdered into a nutrient-packed superfood. Great for detox and energy.";                                                                     price = "180"; category = "Wellness";   isAvailable = true; },
+    { id = 31; name = "Triphala Powder";       description = "Traditional Ayurvedic blend of three fruits — amla, bibhitaki, and haritaki — for digestion and detox.";                                                                 price = "190"; category = "Wellness";   isAvailable = true; },
+    // Dehydrated
+    { id = 9;  name = "Onion Powder";          description = "Farm-fresh onions dehydrated and finely milled. Adds instant rich onion flavour to any dish without chopping.";                                                           price = "130"; category = "Dehydrated"; isAvailable = true; },
+    { id = 10; name = "Garlic Powder";         description = "Sun-dried whole garlic cloves ground to a smooth powder. Concentrated flavour for marinades, sauces, and curries.";                                                       price = "140"; category = "Dehydrated"; isAvailable = true; },
+    { id = 11; name = "Banana Powder";         description = "Ripe bananas slow-dried and milled into a fine powder. Naturally sweet, great for smoothies, baby food, and baking.";                                                   price = "150"; category = "Dehydrated"; isAvailable = true; },
+    { id = 12; name = "Beetroot Powder";       description = "Vibrant deep-red beetroots dehydrated and powdered. Rich in nitrates and antioxidants — perfect for juices and lattes.";                                               price = "170"; category = "Dehydrated"; isAvailable = true; },
+    { id = 13; name = "Spinach Powder";        description = "Fresh spinach leaves dehydrated and milled to a fine powder. Packed with iron and vitamins for smoothies and cooking.";                                               price = "140"; category = "Dehydrated"; isAvailable = true; },
   ];
 
   for (product in initialProducts.values()) {

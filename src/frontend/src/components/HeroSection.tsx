@@ -1,222 +1,82 @@
-import { Button } from "@/components/ui/button";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Search } from "lucide-react";
 import { motion } from "motion/react";
+import { useState } from "react";
 import { useNavigation } from "../context/NavigationContext";
 
-const FLOATING_ITEMS = [
+const FLOATING_SPICES = [
+  { emoji: "🌿", x: "6%", y: "25%", delay: 0, dur: 5.2 },
+  { emoji: "✨", x: "80%", y: "18%", delay: 1.1, dur: 6.5 },
+  { emoji: "🌶️", x: "90%", y: "58%", delay: 0.6, dur: 5.8 },
+  { emoji: "⭐", x: "5%", y: "65%", delay: 1.7, dur: 7 },
+  { emoji: "🍃", x: "18%", y: "75%", delay: 0.4, dur: 6.2 },
+  { emoji: "🧄", x: "74%", y: "78%", delay: 2.0, dur: 5.4 },
+  { emoji: "🫙", x: "93%", y: "30%", delay: 0.9, dur: 6.8 },
+  { emoji: "🌾", x: "12%", y: "42%", delay: 1.5, dur: 5.2 },
+];
+
+const PARTICLES = [
   {
-    emoji: "\uD83C\uDF3F",
-    x: "8%",
-    y: "22%",
+    x: "22%",
+    y: "14%",
+    size: 7,
+    color: "oklch(0.83 0.17 85)",
+    dur: 4.5,
     delay: 0,
-    duration: 5,
-    size: "text-3xl",
   },
   {
-    emoji: "\u2728",
-    x: "78%",
-    y: "15%",
+    x: "55%",
+    y: "8%",
+    size: 5,
+    color: "oklch(0.62 0.19 50)",
+    dur: 5.5,
+    delay: 0.7,
+  },
+  {
+    x: "75%",
+    y: "12%",
+    size: 9,
+    color: "oklch(0.83 0.17 85)",
+    dur: 4,
     delay: 1.2,
-    duration: 6.5,
-    size: "text-2xl",
   },
   {
-    emoji: "\uD83C\uDF36\uFE0F",
-    x: "88%",
-    y: "60%",
-    delay: 0.6,
-    duration: 5.8,
-    size: "text-4xl",
-  },
-  {
-    emoji: "\u2B50",
-    x: "6%",
-    y: "68%",
-    delay: 1.8,
-    duration: 7,
-    size: "text-xl",
-  },
-  {
-    emoji: "\uD83C\uDF43",
-    x: "20%",
-    y: "78%",
-    delay: 0.4,
-    duration: 6.2,
-    size: "text-3xl",
-  },
-  {
-    emoji: "\uD83E\uDDC4",
-    x: "72%",
-    y: "80%",
-    delay: 2.1,
-    duration: 5.4,
-    size: "text-2xl",
-  },
-  {
-    emoji: "\uD83E\uDEFA",
-    x: "92%",
-    y: "32%",
-    delay: 0.9,
-    duration: 6.8,
-    size: "text-3xl",
-  },
-  {
-    emoji: "\uD83C\uDF3E",
-    x: "15%",
-    y: "40%",
-    delay: 1.5,
-    duration: 5.2,
-    size: "text-2xl",
-  },
-  {
-    emoji: "\uD83E\uDED9",
-    x: "60%",
-    y: "10%",
-    delay: 2.4,
-    duration: 7.2,
-    size: "text-xl",
-  },
-  {
-    emoji: "\uD83C\uDF38",
-    x: "45%",
-    y: "85%",
+    x: "38%",
+    y: "20%",
+    size: 4,
+    color: "oklch(0.62 0.19 50)",
+    dur: 6,
     delay: 0.3,
-    duration: 5.6,
-    size: "text-2xl",
-  },
-];
-
-// Animated colorful orbs for the upper area
-const COLOR_ORBS = [
-  { color: "#f97316", x: "5%", y: "8%", size: 180, delay: 0 },
-  { color: "#eab308", x: "25%", y: "3%", size: 120, delay: 0.8 },
-  { color: "#ef4444", x: "50%", y: "2%", size: 200, delay: 0.4 },
-  { color: "#22c55e", x: "72%", y: "5%", size: 140, delay: 1.2 },
-  { color: "#06b6d4", x: "88%", y: "4%", size: 160, delay: 0.6 },
-  { color: "#a855f7", x: "40%", y: "12%", size: 100, delay: 1.5 },
-];
-
-const SPARKLE_COLORS = [
-  "#f97316",
-  "#eab308",
-  "#ef4444",
-  "#22c55e",
-  "#06b6d4",
-  "#a855f7",
-];
-const SPARKLE_DOTS = [
-  {
-    id: "s1",
-    left: "8%",
-    top: "6%",
-    size: 8,
-    colorIdx: 0,
-    delay: 0,
-    duration: 2.5,
   },
   {
-    id: "s2",
-    left: "15.5%",
-    top: "11%",
-    size: 5,
-    colorIdx: 1,
-    delay: 0.2,
-    duration: 2.8,
-  },
-  {
-    id: "s3",
-    left: "23%",
-    top: "16%",
-    size: 3,
-    colorIdx: 2,
-    delay: 0.4,
-    duration: 3.1,
-  },
-  {
-    id: "s4",
-    left: "30.5%",
-    top: "6%",
-    size: 8,
-    colorIdx: 3,
-    delay: 0.6,
-    duration: 3.4,
-  },
-  {
-    id: "s5",
-    left: "38%",
-    top: "11%",
-    size: 5,
-    colorIdx: 4,
-    delay: 0.8,
-    duration: 3.7,
-  },
-  {
-    id: "s6",
-    left: "45.5%",
-    top: "16%",
-    size: 3,
-    colorIdx: 5,
-    delay: 1.0,
-    duration: 4.0,
-  },
-  {
-    id: "s7",
-    left: "53%",
-    top: "6%",
-    size: 8,
-    colorIdx: 0,
-    delay: 1.2,
-    duration: 4.3,
-  },
-  {
-    id: "s8",
-    left: "60.5%",
-    top: "11%",
-    size: 5,
-    colorIdx: 1,
-    delay: 1.4,
-    duration: 4.6,
-  },
-  {
-    id: "s9",
-    left: "68%",
-    top: "16%",
-    size: 3,
-    colorIdx: 2,
-    delay: 1.6,
-    duration: 4.9,
-  },
-  {
-    id: "s10",
-    left: "75.5%",
-    top: "6%",
-    size: 8,
-    colorIdx: 3,
+    x: "88%",
+    y: "20%",
+    size: 6,
+    color: "oklch(0.83 0.17 85)",
+    dur: 5,
     delay: 1.8,
-    duration: 5.2,
   },
   {
-    id: "s11",
-    left: "83%",
-    top: "11%",
+    x: "10%",
+    y: "30%",
     size: 5,
-    colorIdx: 4,
-    delay: 2.0,
-    duration: 5.5,
-  },
-  {
-    id: "s12",
-    left: "90.5%",
-    top: "16%",
-    size: 3,
-    colorIdx: 5,
-    delay: 2.2,
-    duration: 5.8,
+    color: "oklch(0.62 0.19 50)",
+    dur: 4.8,
+    delay: 0.5,
   },
 ];
 
 export function HeroSection() {
-  const { setActivePage } = useNavigation();
+  const { setActivePage, setHomeSearchQuery } = useNavigation();
+  const [query, setQuery] = useState("");
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (query.trim()) {
+      setHomeSearchQuery(query.trim());
+      setActivePage("products");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
 
   return (
     <>
@@ -224,101 +84,107 @@ export function HeroSection() {
         id="home"
         data-ocid="hero.section"
         className="relative min-h-screen flex items-center justify-center overflow-hidden"
+        style={{ background: "oklch(0.18 0.08 155)" }}
       >
-        {/* THICK rainbow band at very top */}
-        <div
-          className="absolute top-0 left-0 right-0 z-20 pointer-events-none"
-          style={{ height: "8px" }}
-        >
-          <div
-            className="w-full h-full"
-            style={{
-              background:
-                "linear-gradient(90deg, #f97316 0%, #eab308 16%, #ef4444 32%, #22c55e 50%, #06b6d4 68%, #a855f7 84%, #f97316 100%)",
-            }}
-          />
-        </div>
-
-        {/* Second decorative colorful band below navbar */}
-        <motion.div
-          className="absolute left-0 right-0 z-10 pointer-events-none"
-          style={{ top: "72px", height: "4px" }}
-          initial={{ scaleX: 0, opacity: 0 }}
-          animate={{ scaleX: 1, opacity: 1 }}
-          transition={{ duration: 1.2, delay: 0.3 }}
-        >
-          <div
-            className="w-full h-full"
-            style={{
-              background:
-                "linear-gradient(90deg, #a855f7 0%, #06b6d4 25%, #22c55e 50%, #ef4444 75%, #f97316 100%)",
-            }}
-          />
-        </motion.div>
-
-        {/* Background image + overlays */}
+        {/* Background image */}
         <div className="absolute inset-0">
           <img
             src="/assets/generated/hero-banner.dim_1200x600.jpg"
             alt="Ècoelen premium food powders"
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover opacity-25"
           />
-          {/* Dark base overlay */}
-          <div className="absolute inset-0 bg-gradient-to-br from-black/70 via-black/55 to-black/50" />
-          {/* Colorful upper gradient overlay */}
           <div
             className="absolute inset-0"
             style={{
               background:
-                "linear-gradient(180deg, rgba(249,115,22,0.35) 0%, rgba(234,179,8,0.2) 15%, rgba(239,68,68,0.15) 30%, transparent 55%)",
+                "linear-gradient(160deg, oklch(0.18 0.08 155) 0%, oklch(0.22 0.10 155 / 0.8) 40%, oklch(0.14 0.05 155) 100%)",
             }}
           />
-          {/* Bottom dark for text legibility */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-          <div className="absolute inset-0 hero-color-cycle opacity-15" />
         </div>
 
-        {/* Colorful glowing orbs in upper area */}
-        {COLOR_ORBS.map((orb) => (
+        {/* Glowing orbs */}
+        <div
+          className="absolute pointer-events-none"
+          style={{
+            left: "10%",
+            top: "20%",
+            width: 400,
+            height: 400,
+            borderRadius: "50%",
+            background:
+              "radial-gradient(circle, rgba(232,112,10,0.18) 0%, transparent 70%)",
+            filter: "blur(40px)",
+          }}
+        />
+        <div
+          className="absolute pointer-events-none"
+          style={{
+            right: "8%",
+            bottom: "20%",
+            width: 350,
+            height: 350,
+            borderRadius: "50%",
+            background:
+              "radial-gradient(circle, rgba(245,200,66,0.15) 0%, transparent 70%)",
+            filter: "blur(40px)",
+          }}
+        />
+        <div
+          className="absolute pointer-events-none"
+          style={{
+            left: "40%",
+            top: "5%",
+            width: 300,
+            height: 300,
+            borderRadius: "50%",
+            background:
+              "radial-gradient(circle, rgba(15,76,53,0.5) 0%, transparent 70%)",
+            filter: "blur(50px)",
+          }}
+        />
+
+        {/* Floating particles */}
+        {PARTICLES.map((p, i) => (
           <motion.div
-            key={`orb-${orb.color}`}
-            className="absolute pointer-events-none hidden md:block"
+            // biome-ignore lint/suspicious/noArrayIndexKey: static particles
+            key={i}
+            className="absolute rounded-full pointer-events-none hidden md:block"
             style={{
-              left: orb.x,
-              top: orb.y,
-              width: orb.size,
-              height: orb.size,
-              background: `radial-gradient(circle, ${orb.color}55 0%, ${orb.color}22 50%, transparent 70%)`,
-              borderRadius: "50%",
-              transform: "translate(-50%, -50%)",
+              left: p.x,
+              top: p.y,
+              width: p.size,
+              height: p.size,
+              background: p.color,
+              boxShadow: `0 0 10px 2px ${p.color}`,
             }}
             animate={{
-              scale: [1, 1.3, 1],
-              opacity: [0.6, 1, 0.6],
+              y: [0, -16, 0],
+              opacity: [0.5, 1, 0.5],
+              scale: [1, 1.35, 1],
             }}
             transition={{
               repeat: Number.POSITIVE_INFINITY,
-              duration: 4 + orb.delay,
-              delay: orb.delay,
+              duration: p.dur,
+              delay: p.delay,
               ease: "easeInOut",
             }}
           />
         ))}
 
         {/* Floating spice emojis */}
-        {FLOATING_ITEMS.map((item) => (
+        {FLOATING_SPICES.map((item) => (
           <motion.span
             key={item.emoji}
-            className={`absolute ${item.size} pointer-events-none z-10 hidden md:block`}
+            className="absolute text-2xl pointer-events-none z-10 hidden md:block"
             style={{ left: item.x, top: item.y }}
             animate={{
-              y: [0, -18, 0],
-              rotate: [0, 8, -8, 0],
-              opacity: [0.55, 0.85, 0.55],
+              y: [0, -16, 0],
+              rotate: [0, 6, -6, 0],
+              opacity: [0.5, 0.85, 0.5],
             }}
             transition={{
               repeat: Number.POSITIVE_INFINITY,
-              duration: item.duration,
+              duration: item.dur,
               delay: item.delay,
               ease: "easeInOut",
             }}
@@ -327,72 +193,34 @@ export function HeroSection() {
           </motion.span>
         ))}
 
-        {/* Upper colorful sparkle dots */}
-        {SPARKLE_DOTS.map((dot) => {
-          const color = SPARKLE_COLORS[dot.colorIdx];
-          return (
-            <motion.div
-              key={dot.id}
-              className="absolute pointer-events-none hidden md:block rounded-full z-10"
-              style={{
-                left: dot.left,
-                top: dot.top,
-                width: dot.size,
-                height: dot.size,
-                background: color,
-                boxShadow: `0 0 8px 2px ${color}88`,
-              }}
-              animate={{
-                y: [0, -12, 0],
-                opacity: [0.5, 1, 0.5],
-                scale: [1, 1.4, 1],
-              }}
-              transition={{
-                repeat: Number.POSITIVE_INFINITY,
-                duration: dot.duration,
-                delay: dot.delay,
-                ease: "easeInOut",
-              }}
-            />
-          );
-        })}
-
+        {/* Content */}
         <div className="relative z-10 container mx-auto px-4 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
+            transition={{ duration: 0.7 }}
+            className="inline-block text-xs tracking-[0.4em] uppercase mb-5 font-body font-semibold px-4 py-1.5 rounded-full"
+            style={{
+              color: "oklch(0.83 0.17 85)",
+              background: "rgba(245,200,66,0.12)",
+              border: "1px solid rgba(245,200,66,0.25)",
+            }}
           >
-            <p className="inline-block text-amber-300 font-body text-sm tracking-[0.3em] uppercase mb-4 font-medium drop-shadow">
-              Kapiraj Foods presents
-            </p>
-          </motion.div>
+            Kapiraj Foods presents
+          </motion.p>
 
           <motion.h1
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: 0.15, ease: "easeOut" }}
-            className="font-display text-5xl md:text-7xl lg:text-8xl font-bold text-white leading-[0.95] tracking-tight mb-4"
+            transition={{ duration: 0.9, delay: 0.15 }}
+            className="font-display text-6xl md:text-8xl lg:text-9xl font-bold leading-[0.92] tracking-tight mb-6"
           >
-            <span className="relative inline-block">
-              <span className="absolute -inset-6 blur-3xl hero-glow-aura rounded-full opacity-40 pointer-events-none" />
-              <span
-                style={{
-                  background:
-                    "linear-gradient(135deg, #fde68a 0%, #fb923c 40%, #f87171 80%)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  backgroundClip: "text",
-                }}
-              >
-                Pure.
-              </span>
-            </span>
+            <span className="hero-headline-gradient">Pure.</span>
             <br />
             <span
               style={{
                 background:
-                  "linear-gradient(135deg, #6ee7b7 0%, #34d399 30%, #22c55e 60%, #86efac 100%)",
+                  "linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.7) 100%)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
@@ -404,49 +232,94 @@ export function HeroSection() {
             <span
               style={{
                 background:
-                  "linear-gradient(135deg, #93c5fd 0%, #60a5fa 30%, #06b6d4 65%, #a78bfa 100%)",
+                  "linear-gradient(135deg, oklch(0.62 0.19 50) 0%, oklch(0.83 0.17 85) 100%)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
               }}
             >
-              Powerful.
+              Authentic.
             </span>
           </motion.h1>
 
           <motion.p
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.35, ease: "easeOut" }}
-            className="font-body text-white text-lg md:text-xl max-w-xl mx-auto mt-6 mb-10 leading-relaxed drop-shadow-lg"
+            transition={{ duration: 0.8, delay: 0.35 }}
+            className="font-body text-lg md:text-xl max-w-xl mx-auto mb-8 leading-relaxed"
+            style={{ color: "rgba(255,255,255,0.7)" }}
           >
-            Discover Ècoelen’s range of premium food powders crafted from the
-            finest farms, free from additives, and full of nature’s goodness.
+            Discover Ècoelen's range of premium food powders crafted from the
+            finest farms, free from additives, and full of nature's goodness.
           </motion.p>
+
+          {/* Search bar */}
+          <motion.form
+            onSubmit={handleSearch}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.45 }}
+            className="flex items-center max-w-lg mx-auto mb-8"
+          >
+            <div className="relative flex-1">
+              <Search
+                className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 pointer-events-none"
+                style={{ color: "rgba(255,255,255,0.4)" }}
+              />
+              <input
+                type="text"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Search turmeric, chai masala, moringa..."
+                className="w-full pl-12 pr-4 py-4 rounded-l-full text-sm font-body focus:outline-none"
+                style={{
+                  background: "rgba(255,255,255,0.1)",
+                  border: "1px solid rgba(255,255,255,0.2)",
+                  borderRight: "none",
+                  color: "white",
+                }}
+              />
+            </div>
+            <button
+              type="submit"
+              className="px-6 py-4 rounded-r-full font-bold text-sm font-body text-white transition-all duration-200"
+              style={{
+                background: "oklch(0.62 0.19 50)",
+                border: "1px solid rgba(255,255,255,0.2)",
+                borderLeft: "none",
+              }}
+            >
+              Search
+            </button>
+          </motion.form>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.5, ease: "easeOut" }}
+            transition={{ duration: 0.7, delay: 0.55 }}
             className="flex flex-col sm:flex-row items-center justify-center gap-4"
           >
-            <Button
-              size="lg"
+            <button
+              type="button"
               data-ocid="hero.primary_button"
               onClick={() => setActivePage("products")}
-              className="hero-cta-btn font-bold px-10 py-6 text-base shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 border-0 text-white"
+              className="cta-shimmer px-10 py-4 rounded-full text-base font-bold font-body text-white shadow-glow hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
             >
               Explore Products
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
+            </button>
+            <button
+              type="button"
               data-ocid="hero.secondary_button"
               onClick={() => setActivePage("about")}
-              className="border-white/50 text-white bg-white/10 hover:bg-white/20 backdrop-blur-sm font-medium px-8 py-6 text-base transition-all duration-300"
+              className="px-8 py-4 rounded-full text-base font-semibold font-body transition-all duration-300 hover:-translate-y-1"
+              style={{
+                background: "rgba(255,255,255,0.08)",
+                border: "1px solid rgba(255,255,255,0.2)",
+                color: "rgba(255,255,255,0.85)",
+              }}
             >
               Our Story
-            </Button>
+            </button>
           </motion.div>
         </div>
 
@@ -459,16 +332,16 @@ export function HeroSection() {
             ease: "easeInOut",
           }}
         >
-          <ChevronDown className="text-white/60" size={28} />
+          <ChevronDown style={{ color: "rgba(255,255,255,0.4)" }} size={28} />
         </motion.div>
       </section>
 
-      {/* Colorful gradient section divider below hero */}
+      {/* Section divider */}
       <div
-        className="h-2 w-full"
+        className="h-1.5 w-full"
         style={{
           background:
-            "linear-gradient(90deg, #f97316 0%, #eab308 20%, #ef4444 40%, #22c55e 60%, #06b6d4 80%, #a855f7 100%)",
+            "linear-gradient(90deg, oklch(0.30 0.10 155) 0%, oklch(0.62 0.19 50) 40%, oklch(0.83 0.17 85) 60%, oklch(0.62 0.19 50) 80%, oklch(0.30 0.10 155) 100%)",
         }}
       />
     </>

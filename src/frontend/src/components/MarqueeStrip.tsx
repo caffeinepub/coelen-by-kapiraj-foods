@@ -13,34 +13,44 @@ export function MarqueeStrip() {
   const repeated = [...ITEMS, ...ITEMS, ...ITEMS, ...ITEMS];
 
   return (
-    <div className="relative overflow-hidden bg-gradient-to-r from-amber-500 via-orange-500 to-amber-500 py-3.5 select-none">
-      <style>{`
-        @keyframes marquee-scroll {
-          0%   { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
-        .marquee-track {
-          display: flex;
-          width: max-content;
-          animation: marquee-scroll 43.2s linear infinite;
-          will-change: transform;
-        }
-      `}</style>
+    <div
+      className="relative overflow-hidden py-4 select-none"
+      style={{
+        background:
+          "linear-gradient(90deg, oklch(0.20 0.08 155) 0%, oklch(0.28 0.12 155) 50%, oklch(0.20 0.08 155) 100%)",
+      }}
+    >
       <div className="marquee-track">
         {repeated.map((item, i) => (
           <span
             // biome-ignore lint/suspicious/noArrayIndexKey: static marquee
             key={i}
-            className="inline-flex items-center gap-2 px-5 text-sm font-semibold tracking-widest uppercase text-white font-body whitespace-nowrap"
+            className="inline-flex items-center gap-2.5 px-6 text-sm font-semibold tracking-widest uppercase font-body whitespace-nowrap"
+            style={{ color: "rgba(255,255,255,0.85)" }}
           >
             <span className="text-base">{item.emoji}</span>
             {item.text}
-            <span className="opacity-50 ml-2">✦</span>
+            <span style={{ color: "oklch(0.83 0.17 85)", marginLeft: "4px" }}>
+              ✦
+            </span>
           </span>
         ))}
       </div>
-      <div className="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-amber-500 to-transparent z-10 pointer-events-none" />
-      <div className="absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-amber-500 to-transparent z-10 pointer-events-none" />
+      {/* Edge fades */}
+      <div
+        className="absolute inset-y-0 left-0 w-20 z-10 pointer-events-none"
+        style={{
+          background:
+            "linear-gradient(to right, oklch(0.20 0.08 155), transparent)",
+        }}
+      />
+      <div
+        className="absolute inset-y-0 right-0 w-20 z-10 pointer-events-none"
+        style={{
+          background:
+            "linear-gradient(to left, oklch(0.20 0.08 155), transparent)",
+        }}
+      />
     </div>
   );
 }

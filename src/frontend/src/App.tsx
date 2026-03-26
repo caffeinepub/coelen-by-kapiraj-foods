@@ -1,7 +1,7 @@
 import { Toaster } from "@/components/ui/sonner";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { motion } from "motion/react";
-import { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "motion/react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { AboutSection } from "./components/AboutSection";
 import { AdminPage } from "./components/AdminPage";
@@ -12,6 +12,7 @@ import { HeroSection } from "./components/HeroSection";
 import { MarqueeStrip } from "./components/MarqueeStrip";
 import { Navbar } from "./components/Navbar";
 import { ProcessSection } from "./components/ProcessSection";
+import { ProductDetailPage } from "./components/ProductDetailPage";
 import { ProductsSection } from "./components/ProductsSection";
 import { SplashScreen } from "./components/SplashScreen";
 import { TestimonialsSection } from "./components/TestimonialsSection";
@@ -29,35 +30,47 @@ const queryClient = new QueryClient({
 
 function PageContent() {
   const { activePage } = useNavigation();
+  const prevPage = useRef(activePage);
+
+  useEffect(() => {
+    if (prevPage.current !== activePage) {
+      prevPage.current = activePage;
+      window.scrollTo({ top: 0, behavior: "instant" });
+    }
+  });
 
   return (
-    <motion.main
-      key={activePage}
-      initial={{ opacity: 0, y: 16 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.35 }}
-    >
-      {activePage === "home" && (
-        <>
-          <HeroSection />
-          <MarqueeStrip />
-          <FeaturesSection />
-        </>
-      )}
-      {activePage === "products" && (
-        <>
-          <ProductsSection />
-          <ProcessSection />
-        </>
-      )}
-      {activePage === "about" && (
-        <>
-          <AboutSection />
-          <TestimonialsSection />
-        </>
-      )}
-      {activePage === "contact" && <ContactSection />}
-    </motion.main>
+    <AnimatePresence mode="wait">
+      <motion.main
+        key={activePage}
+        initial={{ opacity: 0, y: 60 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -20 }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
+      >
+        {activePage === "home" && (
+          <>
+            <HeroSection />
+            <MarqueeStrip />
+            <FeaturesSection />
+          </>
+        )}
+        {activePage === "products" && (
+          <>
+            <ProductsSection />
+            <ProcessSection />
+          </>
+        )}
+        {activePage === "product-detail" && <ProductDetailPage />}
+        {activePage === "about" && (
+          <>
+            <AboutSection />
+            <TestimonialsSection />
+          </>
+        )}
+        {activePage === "contact" && <ContactSection />}
+      </motion.main>
+    </AnimatePresence>
   );
 }
 

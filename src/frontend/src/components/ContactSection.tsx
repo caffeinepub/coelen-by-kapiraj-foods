@@ -30,11 +30,25 @@ export function ContactSection() {
     }
   };
 
+  const contactItems = [
+    { icon: Mail, label: "Email", value: "info@kapirajfoods.com" },
+    { icon: Phone, label: "Phone", value: "+91 98765 43210" },
+    {
+      icon: MapPin,
+      label: "Address",
+      value: "Kapiraj Foods Pvt. Ltd., Industrial Area, Phase II, India",
+    },
+  ];
+
   return (
     <section
       id="contact"
       data-ocid="contact.section"
-      className="py-20 md:py-28 bg-background"
+      className="py-20 md:py-28"
+      style={{
+        background:
+          "linear-gradient(160deg, oklch(0.18 0.08 155) 0%, oklch(0.22 0.10 155) 100%)",
+      }}
     >
       <div className="container mx-auto px-4">
         <motion.div
@@ -44,76 +58,65 @@ export function ContactSection() {
           transition={{ duration: 0.7 }}
           className="text-center mb-14"
         >
-          <p className="text-primary font-body text-sm tracking-[0.25em] uppercase mb-3 font-semibold">
+          <p
+            className="text-xs tracking-[0.35em] uppercase mb-3 font-semibold font-body"
+            style={{ color: "oklch(0.83 0.17 85)" }}
+          >
             Get In Touch
           </p>
-          <h2 className="font-display text-4xl md:text-5xl font-bold text-foreground">
-            We'd Love to Hear From You
+          <h2 className="font-display text-4xl md:text-5xl font-bold text-white">
+            We’d Love to Hear From You
           </h2>
         </motion.div>
 
         <div className="grid lg:grid-cols-2 gap-12 max-w-5xl mx-auto">
+          {/* Info side */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7 }}
           >
-            <h3 className="font-display text-2xl font-semibold text-foreground mb-4">
+            <h3 className="font-display text-2xl font-semibold text-white mb-4">
               Kapiraj Foods
             </h3>
-            <p className="font-body text-muted-foreground text-base leading-relaxed mb-8">
+            <p
+              className="font-body text-base leading-relaxed mb-8"
+              style={{ color: "rgba(255,255,255,0.65)" }}
+            >
               Have questions about our products, bulk orders, or want to partner
               with us? Drop us a message and our team will respond within 24
               hours.
             </p>
             <div className="space-y-5">
-              <div className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0 mt-0.5">
-                  <Mail size={16} className="text-primary" />
+              {contactItems.map((item) => (
+                <div key={item.label} className="flex items-start gap-4">
+                  <div
+                    className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0 mt-0.5"
+                    style={{ background: "rgba(232,112,10,0.2)" }}
+                  >
+                    <item.icon
+                      size={16}
+                      style={{ color: "oklch(0.83 0.17 85)" }}
+                    />
+                  </div>
+                  <div>
+                    <p className="font-body font-semibold text-sm text-white">
+                      {item.label}
+                    </p>
+                    <p
+                      className="font-body text-sm"
+                      style={{ color: "rgba(255,255,255,0.55)" }}
+                    >
+                      {item.value}
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <p className="font-body font-semibold text-foreground text-sm">
-                    Email
-                  </p>
-                  <p className="font-body text-muted-foreground text-sm">
-                    info@kapirajfoods.com
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0 mt-0.5">
-                  <Phone size={16} className="text-primary" />
-                </div>
-                <div>
-                  <p className="font-body font-semibold text-foreground text-sm">
-                    Phone
-                  </p>
-                  <p className="font-body text-muted-foreground text-sm">
-                    +91 98765 43210
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0 mt-0.5">
-                  <MapPin size={16} className="text-primary" />
-                </div>
-                <div>
-                  <p className="font-body font-semibold text-foreground text-sm">
-                    Address
-                  </p>
-                  <p className="font-body text-muted-foreground text-sm">
-                    Kapiraj Foods Pvt. Ltd.
-                    <br />
-                    Industrial Area, Phase II
-                    <br />
-                    India
-                  </p>
-                </div>
-              </div>
+              ))}
             </div>
           </motion.div>
 
+          {/* Form side */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -123,31 +126,48 @@ export function ContactSection() {
             {submitted ? (
               <div
                 data-ocid="contact.success_state"
-                className="h-full flex flex-col items-center justify-center text-center p-10 bg-primary/5 rounded-2xl border border-primary/15"
+                className="h-full flex flex-col items-center justify-center text-center p-10 rounded-2xl"
+                style={{
+                  background: "rgba(255,255,255,0.06)",
+                  border: "1px solid rgba(255,255,255,0.12)",
+                }}
               >
-                <CheckCircle size={48} className="text-primary mb-4" />
-                <h3 className="font-display text-2xl font-bold text-foreground mb-2">
+                <CheckCircle
+                  size={48}
+                  className="mb-4"
+                  style={{ color: "oklch(0.83 0.17 85)" }}
+                />
+                <h3 className="font-display text-2xl font-bold text-white mb-2">
                   Message Sent!
                 </h3>
-                <p className="font-body text-muted-foreground">
-                  Thank you for reaching out. We'll get back to you within 24
+                <p
+                  className="font-body"
+                  style={{ color: "rgba(255,255,255,0.65)" }}
+                >
+                  Thank you for reaching out. We’ll get back to you within 24
                   hours.
                 </p>
               </div>
             ) : (
               <form
                 onSubmit={handleSubmit}
-                className="space-y-5 bg-card rounded-2xl p-7 shadow-warm"
+                className="space-y-5 rounded-2xl p-7"
+                style={{
+                  background: "rgba(255,255,255,0.06)",
+                  backdropFilter: "blur(12px)",
+                  border: "1px solid rgba(255,255,255,0.12)",
+                }}
                 data-ocid="contact.panel"
               >
                 <div className="space-y-1.5">
                   <Label
                     htmlFor="contact-name"
                     className="font-body text-sm font-medium"
+                    style={{ color: "rgba(255,255,255,0.8)" }}
                   >
                     Your Name
                   </Label>
-                  <Input
+                  <input
                     id="contact-name"
                     data-ocid="contact.input"
                     placeholder="Priya Sharma"
@@ -155,17 +175,23 @@ export function ContactSection() {
                     onChange={(e) => setName(e.target.value)}
                     required
                     autoComplete="name"
-                    className="font-body"
+                    className="w-full px-4 py-2.5 rounded-lg text-sm font-body focus:outline-none transition-all"
+                    style={{
+                      background: "rgba(255,255,255,0.08)",
+                      border: "1px solid rgba(255,255,255,0.2)",
+                      color: "white",
+                    }}
                   />
                 </div>
                 <div className="space-y-1.5">
                   <Label
                     htmlFor="contact-email"
                     className="font-body text-sm font-medium"
+                    style={{ color: "rgba(255,255,255,0.8)" }}
                   >
                     Email Address
                   </Label>
-                  <Input
+                  <input
                     id="contact-email"
                     data-ocid="contact.input"
                     type="email"
@@ -174,17 +200,23 @@ export function ContactSection() {
                     onChange={(e) => setEmail(e.target.value)}
                     required
                     autoComplete="email"
-                    className="font-body"
+                    className="w-full px-4 py-2.5 rounded-lg text-sm font-body focus:outline-none transition-all"
+                    style={{
+                      background: "rgba(255,255,255,0.08)",
+                      border: "1px solid rgba(255,255,255,0.2)",
+                      color: "white",
+                    }}
                   />
                 </div>
                 <div className="space-y-1.5">
                   <Label
                     htmlFor="contact-message"
                     className="font-body text-sm font-medium"
+                    style={{ color: "rgba(255,255,255,0.8)" }}
                   >
                     Message
                   </Label>
-                  <Textarea
+                  <textarea
                     id="contact-message"
                     data-ocid="contact.textarea"
                     placeholder="Tell us about your inquiry..."
@@ -192,28 +224,34 @@ export function ContactSection() {
                     onChange={(e) => setMessage(e.target.value)}
                     required
                     rows={5}
-                    className="font-body resize-none"
+                    className="w-full px-4 py-2.5 rounded-lg text-sm font-body focus:outline-none transition-all resize-none"
+                    style={{
+                      background: "rgba(255,255,255,0.08)",
+                      border: "1px solid rgba(255,255,255,0.2)",
+                      color: "white",
+                    }}
                   />
                 </div>
-                <Button
+                <button
                   type="submit"
                   data-ocid="contact.submit_button"
                   disabled={mutation.isPending}
-                  className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-semibold py-5"
+                  className="w-full py-3 rounded-xl font-bold font-body text-white transition-all duration-300 cta-shimmer disabled:opacity-60"
                 >
                   {mutation.isPending ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    <span className="flex items-center justify-center gap-2">
+                      <Loader2 className="h-4 w-4 animate-spin" />
                       Sending...
-                    </>
+                    </span>
                   ) : (
                     "Send Message"
                   )}
-                </Button>
+                </button>
                 {mutation.isError && (
                   <p
                     data-ocid="contact.error_state"
-                    className="text-destructive text-sm font-body text-center"
+                    className="text-sm font-body text-center"
+                    style={{ color: "oklch(0.72 0.22 25)" }}
                   >
                     Something went wrong. Please try again.
                   </p>
