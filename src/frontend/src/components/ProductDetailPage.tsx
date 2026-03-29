@@ -1,7 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { useGetProducts } from "@/hooks/useQueries";
 import { motion } from "motion/react";
 import { useState } from "react";
 import type { Product } from "../backend.d";
@@ -2272,13 +2271,9 @@ function WhyChooseUsSection() {
 
 export function ProductDetailPage() {
   const { selectedProductId, setActivePage } = useNavigation();
-  const { data: backendProducts } = useGetProducts();
   const { addToCart } = useCart();
 
-  const products =
-    backendProducts && backendProducts.length > 0
-      ? backendProducts
-      : STATIC_PRODUCTS;
+  const products = STATIC_PRODUCTS;
   const product =
     products.find((p) => String(p.id) === selectedProductId) ?? products[0];
 
