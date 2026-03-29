@@ -25,6 +25,7 @@ export const PRODUCT_IMAGES: Record<string, string> = {
   "Cardamom Powder": "/assets/generated/product-cardamom.dim_400x300.jpg",
   "Fenugreek Powder": "/assets/generated/product-fenugreek.dim_400x300.jpg",
   "Dry Ginger Powder": "/assets/generated/product-dry-ginger.dim_400x300.jpg",
+  "Fudina Powder": "/assets/generated/product-fudina.dim_400x300.jpg",
   "Sambar Powder": "/assets/generated/product-sambar.dim_400x300.jpg",
   "Rasam Powder": "/assets/generated/product-rasam.dim_400x300.jpg",
   "Chole Masala": "/assets/generated/product-chole-masala.dim_400x300.jpg",
@@ -215,6 +216,15 @@ export const STATIC_PRODUCTS: Product[] = [
     category: "Spices",
     description: "Sun-dried ginger root ground to a pungent, warming powder.",
     price: "140",
+    isAvailable: true,
+  },
+  {
+    id: 32n,
+    name: "Fudina Powder",
+    category: "Spices",
+    description:
+      "Sun-dried mint leaves finely ground into a fresh, cooling powder. Ideal for chutneys, raitas, and beverages.",
+    price: "120",
     isAvailable: true,
   },
   {

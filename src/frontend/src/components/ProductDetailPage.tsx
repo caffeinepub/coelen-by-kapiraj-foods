@@ -374,6 +374,28 @@ const PRODUCT_GALLERY: Record<string, { src: string; label: string }[]> = {
       label: "Farm Fresh",
     },
   ],
+  "Fudina Powder": [
+    {
+      src: "/assets/generated/product-fudina.dim_400x300.jpg",
+      label: "Product",
+    },
+    {
+      src: "/assets/generated/product-fudina-pack.dim_400x300.jpg",
+      label: "Packaging",
+    },
+    {
+      src: "/assets/generated/product-fudina-dish.dim_400x300.jpg",
+      label: "In Use",
+    },
+    {
+      src: "/assets/generated/product-fudina-closeup.dim_400x300.jpg",
+      label: "Close Up",
+    },
+    {
+      src: "/assets/generated/product-fudina-farm.dim_400x300.jpg",
+      label: "Farm Fresh",
+    },
+  ],
   "Sambar Powder": [
     {
       src: "/assets/generated/product-sambar.dim_400x300.jpg",
@@ -968,6 +990,24 @@ const HOW_TO_USE: Record<string, { step: string; desc: string }[]> = {
     {
       step: "Step 4 – Digestive Remedy",
       desc: "Mix ¼ tsp with honey after meals to aid digestion and reduce bloating.",
+    },
+  ],
+  "Fudina Powder": [
+    {
+      step: "Step 1 – Chutneys & Dips",
+      desc: "Mix 1 tsp with coriander, lemon juice, and green chilli for an instant mint chutney.",
+    },
+    {
+      step: "Step 2 – Raita & Lassi",
+      desc: "Stir into yoghurt for a refreshing mint raita or blend into a cooling mint lassi.",
+    },
+    {
+      step: "Step 3 – Rice & Biriyani",
+      desc: "Add to the cooking water or sprinkle on top of rice and biriyani for a fragrant finish.",
+    },
+    {
+      step: "Step 4 – Beverages",
+      desc: "Dissolve in water or lemonade for a quick mint drink; also great in mocktails.",
     },
   ],
   "Sambar Powder": [
@@ -1580,6 +1620,28 @@ const PRODUCT_BENEFITS: Record<
       desc: "Supports healthy digestion, reduces bloating, and soothes the intestinal lining.",
     },
   ],
+  "Fudina Powder": [
+    {
+      icon: "🌬️",
+      title: "Cooling Effect",
+      desc: "Naturally cools the body and helps combat heat and acidity.",
+    },
+    {
+      icon: "🫃",
+      title: "Digestive Aid",
+      desc: "Relieves bloating, indigestion, and stomach cramps.",
+    },
+    {
+      icon: "🦷",
+      title: "Fresh Breath",
+      desc: "Natural antibacterial properties help freshen breath.",
+    },
+    {
+      icon: "🧘",
+      title: "Stress Relief",
+      desc: "Menthol aroma has calming and stress-relieving properties.",
+    },
+  ],
   "Sambar Powder": [
     {
       icon: "🌶️",
@@ -1948,6 +2010,7 @@ const STAR_RATINGS: Record<string, { stars: number; count: number }> = {
   "Cardamom Powder": { stars: 4.8, count: 241 },
   "Fenugreek Powder": { stars: 4.4, count: 97 },
   "Dry Ginger Powder": { stars: 4.6, count: 152 },
+  "Fudina Powder": { stars: 4.6, count: 112 },
   "Sambar Powder": { stars: 4.8, count: 312 },
   "Rasam Powder": { stars: 4.7, count: 267 },
   "Chole Masala": { stars: 4.8, count: 298 },
