@@ -296,15 +296,15 @@ const PRODUCT_GALLERY: Record<string, { src: string; label: string }[]> = {
       label: "Packaging",
     },
     {
-      src: "/assets/generated/product-tomato-powder.dim_400x300.jpg",
+      src: "/assets/generated/product-tomato-powder-inuse.dim_400x300.jpg",
       label: "In Use",
     },
     {
-      src: "/assets/generated/product-tomato-powder.dim_400x300.jpg",
+      src: "/assets/generated/product-tomato-powder-closeup.dim_400x300.jpg",
       label: "Close Up",
     },
     {
-      src: "/assets/generated/product-tomato-powder.dim_400x300.jpg",
+      src: "/assets/generated/product-tomato-powder-farm.dim_400x300.jpg",
       label: "Farm Fresh",
     },
   ],
@@ -318,15 +318,15 @@ const PRODUCT_GALLERY: Record<string, { src: string; label: string }[]> = {
       label: "Packaging",
     },
     {
-      src: "/assets/generated/product-dehydrated-tomato.dim_400x300.jpg",
+      src: "/assets/generated/product-dehydrated-tomato-inuse.dim_400x300.jpg",
       label: "In Use",
     },
     {
-      src: "/assets/generated/product-dehydrated-tomato.dim_400x300.jpg",
+      src: "/assets/generated/product-dehydrated-tomato-closeup.dim_400x300.jpg",
       label: "Close Up",
     },
     {
-      src: "/assets/generated/product-dehydrated-tomato.dim_400x300.jpg",
+      src: "/assets/generated/product-dehydrated-tomato-farm.dim_400x300.jpg",
       label: "Farm Fresh",
     },
   ],
