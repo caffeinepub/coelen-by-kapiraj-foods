@@ -286,6 +286,50 @@ const PRODUCT_GALLERY: Record<string, { src: string; label: string }[]> = {
       label: "Farm Fresh",
     },
   ],
+  "Tomato Powder": [
+    {
+      src: "/assets/generated/product-tomato-powder.dim_400x300.jpg",
+      label: "Product",
+    },
+    {
+      src: "/assets/generated/product-tomato-powder-packaging.dim_400x300.jpg",
+      label: "Packaging",
+    },
+    {
+      src: "/assets/generated/product-tomato-powder.dim_400x300.jpg",
+      label: "In Use",
+    },
+    {
+      src: "/assets/generated/product-tomato-powder.dim_400x300.jpg",
+      label: "Close Up",
+    },
+    {
+      src: "/assets/generated/product-tomato-powder.dim_400x300.jpg",
+      label: "Farm Fresh",
+    },
+  ],
+  "Dehydrated Tomato": [
+    {
+      src: "/assets/generated/product-dehydrated-tomato.dim_400x300.jpg",
+      label: "Product",
+    },
+    {
+      src: "/assets/generated/product-dehydrated-tomato-packaging.dim_400x300.jpg",
+      label: "Packaging",
+    },
+    {
+      src: "/assets/generated/product-dehydrated-tomato.dim_400x300.jpg",
+      label: "In Use",
+    },
+    {
+      src: "/assets/generated/product-dehydrated-tomato.dim_400x300.jpg",
+      label: "Close Up",
+    },
+    {
+      src: "/assets/generated/product-dehydrated-tomato.dim_400x300.jpg",
+      label: "Farm Fresh",
+    },
+  ],
   "Black Pepper Powder": [
     {
       src: "/assets/generated/product-black-pepper.dim_400x300.jpg",
@@ -920,6 +964,42 @@ const HOW_TO_USE: Record<string, { step: string; desc: string }[]> = {
       desc: "Stir into egg dishes or omelette batter for an easy veggie boost.",
     },
   ],
+  "Tomato Powder": [
+    {
+      step: "Step 1 – Gravies & Curries",
+      desc: "Add 1-2 tsp to curries and gravies as a natural tomato base without peeling.",
+    },
+    {
+      step: "Step 2 – Soups & Sauces",
+      desc: "Dissolve in warm water or stock to create a rich tomato base for soups.",
+    },
+    {
+      step: "Step 3 – Marinades",
+      desc: "Mix with spices to create a tangy marinade for paneer, chicken, or vegetables.",
+    },
+    {
+      step: "Step 4 – Seasoning",
+      desc: "Sprinkle over pasta, pizza, or salads for a concentrated tomato flavour.",
+    },
+  ],
+  "Dehydrated Tomato": [
+    {
+      step: "Step 1 – Rehydrate & Use",
+      desc: "Soak in warm water for 10-15 minutes to rehydrate before adding to dishes.",
+    },
+    {
+      step: "Step 2 – Pasta & Pizza",
+      desc: "Add directly to pasta sauces or pizza toppings for intense tomato flavour.",
+    },
+    {
+      step: "Step 3 – Stews & Dals",
+      desc: "Add to slow-cooked dals and stews for deep, concentrated tomato taste.",
+    },
+    {
+      step: "Step 4 – Snacking",
+      desc: "Season with salt and oregano for a healthy, fibre-rich snack on its own.",
+    },
+  ],
   "Black Pepper Powder": [
     {
       step: "Step 1 – Season Everything",
@@ -1532,6 +1612,50 @@ const PRODUCT_BENEFITS: Record<
       desc: "Folate and antioxidants support cognitive function and mental clarity.",
     },
   ],
+  "Tomato Powder": [
+    {
+      icon: "🍅",
+      title: "Lycopene Rich",
+      desc: "Concentrated source of lycopene, a powerful antioxidant that protects cells.",
+    },
+    {
+      icon: "❤️",
+      title: "Heart Health",
+      desc: "Lycopene and potassium support healthy blood pressure and cardiovascular function.",
+    },
+    {
+      icon: "🌟",
+      title: "Vitamin C",
+      desc: "High in vitamin C to boost immunity and support collagen production.",
+    },
+    {
+      icon: "🏋️",
+      title: "Low Calorie",
+      desc: "Adds rich flavour to dishes with minimal calories, ideal for weight management.",
+    },
+  ],
+  "Dehydrated Tomato": [
+    {
+      icon: "🍅",
+      title: "Nutrient Dense",
+      desc: "Dehydration concentrates vitamins and minerals without added preservatives.",
+    },
+    {
+      icon: "❤️",
+      title: "Antioxidant Boost",
+      desc: "Rich in lycopene and beta-carotene to protect against oxidative stress.",
+    },
+    {
+      icon: "🌿",
+      title: "Gut Friendly",
+      desc: "High dietary fibre supports healthy digestion and gut microbiome.",
+    },
+    {
+      icon: "⚡",
+      title: "Long Shelf Life",
+      desc: "Dehydrated form preserves freshness for months without refrigeration.",
+    },
+  ],
   "Black Pepper Powder": [
     {
       icon: "🧬",
@@ -2025,6 +2149,8 @@ const STAR_RATINGS: Record<string, { stars: number; count: number }> = {
   "Neem Powder": { stars: 4.5, count: 127 },
   "Wheatgrass Powder": { stars: 4.6, count: 164 },
   "Triphala Powder": { stars: 4.7, count: 201 },
+  "Tomato Powder": { stars: 4.7, count: 148 },
+  "Dehydrated Tomato": { stars: 4.6, count: 119 },
 };
 
 function StarRating({ stars, count }: { stars: number; count: number }) {

@@ -45,6 +45,9 @@ export const PRODUCT_IMAGES: Record<string, string> = {
   "Neem Powder": "/assets/generated/product-neem.dim_400x300.jpg",
   "Wheatgrass Powder": "/assets/generated/product-wheatgrass.dim_400x300.jpg",
   "Triphala Powder": "/assets/generated/product-triphala.dim_400x300.jpg",
+  "Tomato Powder": "/assets/generated/product-tomato-powder.dim_400x300.jpg",
+  "Dehydrated Tomato":
+    "/assets/generated/product-dehydrated-tomato.dim_400x300.jpg",
 };
 
 // Category glow colors for the new dark glassmorphism cards
@@ -422,6 +425,24 @@ export const STATIC_PRODUCTS: Product[] = [
     description:
       "Fresh spinach leaves air-dried and ground into a fine powder. Packed with iron and vitamins.",
     price: "145",
+    isAvailable: true,
+  },
+  {
+    id: 33n,
+    name: "Tomato Powder",
+    category: "Dehydrated",
+    description:
+      "Sun-ripened tomatoes dehydrated and finely ground into a rich powder. Perfect for gravies, soups, and sauces.",
+    price: "160",
+    isAvailable: true,
+  },
+  {
+    id: 34n,
+    name: "Dehydrated Tomato",
+    category: "Dehydrated",
+    description:
+      "Premium quality tomatoes dehydrated to lock in flavour and nutrients. Ideal for cooking and seasoning.",
+    price: "175",
     isAvailable: true,
   },
 ];
