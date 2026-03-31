@@ -418,7 +418,7 @@ const PRODUCT_GALLERY: Record<string, { src: string; label: string }[]> = {
       label: "Farm Fresh",
     },
   ],
-  "Fudina Powder": [
+  "Mint Powder": [
     {
       src: "/assets/generated/product-fudina.dim_400x300.jpg",
       label: "Product",
@@ -1072,7 +1072,7 @@ const HOW_TO_USE: Record<string, { step: string; desc: string }[]> = {
       desc: "Mix ¼ tsp with honey after meals to aid digestion and reduce bloating.",
     },
   ],
-  "Fudina Powder": [
+  "Mint Powder": [
     {
       step: "Step 1 – Chutneys & Dips",
       desc: "Mix 1 tsp with coriander, lemon juice, and green chilli for an instant mint chutney.",
@@ -1744,7 +1744,7 @@ const PRODUCT_BENEFITS: Record<
       desc: "Supports healthy digestion, reduces bloating, and soothes the intestinal lining.",
     },
   ],
-  "Fudina Powder": [
+  "Mint Powder": [
     {
       icon: "🌬️",
       title: "Cooling Effect",
@@ -2134,7 +2134,7 @@ const STAR_RATINGS: Record<string, { stars: number; count: number }> = {
   "Cardamom Powder": { stars: 4.8, count: 241 },
   "Fenugreek Powder": { stars: 4.4, count: 97 },
   "Dry Ginger Powder": { stars: 4.6, count: 152 },
-  "Fudina Powder": { stars: 4.6, count: 112 },
+  "Mint Powder": { stars: 4.6, count: 112 },
   "Sambar Powder": { stars: 4.8, count: 312 },
   "Rasam Powder": { stars: 4.7, count: 267 },
   "Chole Masala": { stars: 4.8, count: 298 },
