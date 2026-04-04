@@ -1,8 +1,8 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { motion } from "motion/react";
-import { useState } from "react";
+import { AnimatePresence, motion } from "motion/react";
+import { useEffect, useState } from "react";
 import type { Product } from "../backend.d";
 import {
   WEIGHT_OPTIONS,
@@ -420,23 +420,23 @@ const PRODUCT_GALLERY: Record<string, { src: string; label: string }[]> = {
   ],
   "Mint Powder": [
     {
-      src: "/assets/generated/product-fudina.dim_400x300.jpg",
+      src: "/assets/generated/product-mint-powder.dim_400x300.jpg",
       label: "Product",
     },
     {
-      src: "/assets/generated/product-fudina-pack.dim_400x300.jpg",
+      src: "/assets/generated/product-mint-powder-pack.dim_400x300.jpg",
       label: "Packaging",
     },
     {
-      src: "/assets/generated/product-fudina-dish.dim_400x300.jpg",
+      src: "/assets/generated/product-mint-powder-dish.dim_400x300.jpg",
       label: "In Use",
     },
     {
-      src: "/assets/generated/product-fudina-closeup.dim_400x300.jpg",
+      src: "/assets/generated/product-mint-powder-closeup.dim_400x300.jpg",
       label: "Close Up",
     },
     {
-      src: "/assets/generated/product-fudina-farm.dim_400x300.jpg",
+      src: "/assets/generated/product-mint-powder-farm.dim_400x300.jpg",
       label: "Farm Fresh",
     },
   ],
@@ -2153,6 +2153,673 @@ const STAR_RATINGS: Record<string, { stars: number; count: number }> = {
   "Dehydrated Tomato": { stars: 4.6, count: 119 },
 };
 
+// ────────────────────────────────────────────────────────────────────────────
+// Pack Back Label Data – unique nutrition & ingredient info per product
+// ────────────────────────────────────────────────────────────────────────────
+interface PackBackInfo {
+  ingredients: string;
+  energy: number;
+  protein: number;
+  carbs: number;
+  fat: number;
+  fibre: number;
+}
+
+const PACK_BACK_DATA: Record<string, PackBackInfo> = {
+  "Turmeric Powder": {
+    ingredients: "Dried Turmeric Rhizomes (Curcuma longa) 100%",
+    energy: 354,
+    protein: 7.8,
+    carbs: 64.9,
+    fat: 9.9,
+    fibre: 21.1,
+  },
+  "Kashmiri Chilli Powder": {
+    ingredients: "Dried Kashmiri Red Chilli (Capsicum annuum) 100%",
+    energy: 318,
+    protein: 13.6,
+    carbs: 56.6,
+    fat: 14.3,
+    fibre: 27.2,
+  },
+  "Garam Masala": {
+    ingredients:
+      "Coriander Seeds, Cumin, Black Pepper, Cloves, Cinnamon, Cardamom, Bay Leaves, Dry Ginger, Mace, Nutmeg",
+    energy: 379,
+    protein: 14.2,
+    carbs: 52.3,
+    fat: 15.0,
+    fibre: 16.8,
+  },
+  "Coriander Powder": {
+    ingredients: "Dried Coriander Seeds (Coriandrum sativum) 100%",
+    energy: 298,
+    protein: 12.4,
+    carbs: 55.0,
+    fat: 17.8,
+    fibre: 41.9,
+  },
+  "Chai Masala": {
+    ingredients:
+      "Ginger, Cardamom, Cinnamon, Black Pepper, Cloves, Dry Ginger, Nutmeg, Mace, Star Anise",
+    energy: 330,
+    protein: 10.2,
+    carbs: 60.4,
+    fat: 8.8,
+    fibre: 22.3,
+  },
+  "Cumin Powder": {
+    ingredients: "Dried Cumin Seeds (Cuminum cyminum) 100%",
+    energy: 375,
+    protein: 17.8,
+    carbs: 44.2,
+    fat: 22.3,
+    fibre: 10.5,
+  },
+  "Black Pepper Powder": {
+    ingredients: "Dried Black Pepper Corns (Piper nigrum) 100%",
+    energy: 255,
+    protein: 10.4,
+    carbs: 63.7,
+    fat: 3.3,
+    fibre: 25.3,
+  },
+  "Cardamom Powder": {
+    ingredients: "Dried Cardamom Seeds (Elettaria cardamomum) 100%",
+    energy: 311,
+    protein: 10.8,
+    carbs: 68.5,
+    fat: 6.7,
+    fibre: 28.0,
+  },
+  "Fenugreek Powder": {
+    ingredients: "Dried Fenugreek Seeds (Trigonella foenum-graecum) 100%",
+    energy: 323,
+    protein: 23.0,
+    carbs: 58.4,
+    fat: 6.4,
+    fibre: 24.6,
+  },
+  "Dry Ginger Powder": {
+    ingredients: "Dried Ginger Root (Zingiber officinale) 100%",
+    energy: 347,
+    protein: 8.9,
+    carbs: 71.6,
+    fat: 4.2,
+    fibre: 14.1,
+  },
+  "Mint Powder": {
+    ingredients: "Dried Mint Leaves (Mentha spicata) 100%",
+    energy: 285,
+    protein: 14.9,
+    carbs: 48.7,
+    fat: 7.3,
+    fibre: 29.8,
+  },
+  "Sambar Powder": {
+    ingredients:
+      "Coriander Seeds, Dry Red Chilli, Cumin, Chana Dal, Urad Dal, Black Pepper, Curry Leaves, Turmeric, Fenugreek",
+    energy: 320,
+    protein: 14.5,
+    carbs: 53.2,
+    fat: 9.8,
+    fibre: 18.4,
+  },
+  "Rasam Powder": {
+    ingredients:
+      "Coriander Seeds, Dry Red Chilli, Cumin, Black Pepper, Curry Leaves, Turmeric, Fenugreek Seeds, Asafoetida",
+    energy: 308,
+    protein: 12.2,
+    carbs: 56.8,
+    fat: 8.9,
+    fibre: 20.1,
+  },
+  "Chole Masala": {
+    ingredients:
+      "Coriander, Cumin, Dry Red Chilli, Amchur, Cloves, Cinnamon, Cardamom, Anardana, Pomegranate Seeds, Black Cardamom, Bay Leaves, Ginger",
+    energy: 341,
+    protein: 12.8,
+    carbs: 57.3,
+    fat: 9.5,
+    fibre: 17.6,
+  },
+  "Pav Bhaji Masala": {
+    ingredients:
+      "Coriander, Cumin, Dry Red Chilli, Fennel, Amchur, Cloves, Cinnamon, Cardamom, Black Salt, Dry Mango Powder, Ginger",
+    energy: 328,
+    protein: 11.4,
+    carbs: 59.6,
+    fat: 8.7,
+    fibre: 16.9,
+  },
+  "Kitchen King Masala": {
+    ingredients:
+      "Coriander, Cumin, Turmeric, Chilli, Cardamom, Cinnamon, Black Pepper, Cloves, Fenugreek, Dry Ginger, Mace, Nutmeg, Bay Leaves, Poppy Seeds",
+    energy: 352,
+    protein: 13.1,
+    carbs: 55.4,
+    fat: 11.2,
+    fibre: 15.8,
+  },
+  "Haldi Doodh Mix": {
+    ingredients:
+      "Turmeric Powder, Sugar, Black Pepper, Cardamom, Ginger, Ashwagandha Extract, Cinnamon, Nutmeg",
+    energy: 376,
+    protein: 5.2,
+    carbs: 82.3,
+    fat: 4.8,
+    fibre: 3.9,
+  },
+  "Moringa Latte Mix": {
+    ingredients:
+      "Moringa Leaf Powder, Sugar, Cardamom, Ginger, Cinnamon, Ashwagandha Extract, Black Pepper",
+    energy: 361,
+    protein: 8.4,
+    carbs: 76.2,
+    fat: 3.5,
+    fibre: 6.2,
+  },
+  "Tulsi Green Tea Powder": {
+    ingredients:
+      "Green Tea Powder (Camellia sinensis), Tulsi Leaf Powder (Ocimum sanctum), Ginger Extract, Cardamom, Lemon Grass Extract",
+    energy: 244,
+    protein: 12.8,
+    carbs: 42.3,
+    fat: 3.1,
+    fibre: 18.7,
+  },
+  "Ashwagandha Milk Mix": {
+    ingredients:
+      "Ashwagandha Root Powder (Withania somnifera), Sugar, Cardamom, Turmeric, Saffron Extract, Black Pepper, Cinnamon, Nutmeg",
+    energy: 383,
+    protein: 7.8,
+    carbs: 80.4,
+    fat: 4.2,
+    fibre: 4.8,
+  },
+  "Amla Powder": {
+    ingredients: "Dried Indian Gooseberry (Phyllanthus emblica) 100%",
+    energy: 241,
+    protein: 4.2,
+    carbs: 58.5,
+    fat: 0.9,
+    fibre: 31.6,
+  },
+  "Moringa Powder": {
+    ingredients: "Dried Moringa Leaves (Moringa oleifera) 100%",
+    energy: 205,
+    protein: 27.1,
+    carbs: 38.2,
+    fat: 2.3,
+    fibre: 19.2,
+  },
+  "Ashwagandha Powder": {
+    ingredients: "Dried Ashwagandha Root (Withania somnifera) 100%",
+    energy: 245,
+    protein: 3.9,
+    carbs: 49.9,
+    fat: 0.3,
+    fibre: 32.3,
+  },
+  "Neem Powder": {
+    ingredients: "Dried Neem Leaves (Azadirachta indica) 100%",
+    energy: 218,
+    protein: 6.8,
+    carbs: 44.2,
+    fat: 2.1,
+    fibre: 17.3,
+  },
+  "Wheatgrass Powder": {
+    ingredients: "Dried Wheatgrass (Triticum aestivum) 100%",
+    energy: 198,
+    protein: 25.4,
+    carbs: 41.2,
+    fat: 3.0,
+    fibre: 36.0,
+  },
+  "Triphala Powder": {
+    ingredients:
+      "Amla (Phyllanthus emblica) 33.3%, Bibhitaki (Terminalia bellirica) 33.3%, Haritaki (Terminalia chebula) 33.4%",
+    energy: 231,
+    protein: 5.1,
+    carbs: 54.8,
+    fat: 1.2,
+    fibre: 27.5,
+  },
+  "Onion Powder": {
+    ingredients: "Dehydrated Onion (Allium cepa) 100%",
+    energy: 349,
+    protein: 10.4,
+    carbs: 80.7,
+    fat: 0.8,
+    fibre: 15.2,
+  },
+  "Garlic Powder": {
+    ingredients: "Dehydrated Garlic (Allium sativum) 100%",
+    energy: 331,
+    protein: 16.5,
+    carbs: 72.7,
+    fat: 0.8,
+    fibre: 9.0,
+  },
+  "Banana Powder": {
+    ingredients: "Dehydrated Banana (Musa acuminata) 100%",
+    energy: 347,
+    protein: 3.9,
+    carbs: 88.3,
+    fat: 1.8,
+    fibre: 9.9,
+  },
+  "Beetroot Powder": {
+    ingredients: "Dehydrated Beetroot (Beta vulgaris) 100%",
+    energy: 325,
+    protein: 12.8,
+    carbs: 74.0,
+    fat: 1.5,
+    fibre: 22.8,
+  },
+  "Spinach Powder": {
+    ingredients: "Dehydrated Spinach Leaves (Spinacia oleracea) 100%",
+    energy: 287,
+    protein: 28.1,
+    carbs: 36.8,
+    fat: 3.6,
+    fibre: 10.9,
+  },
+  "Tomato Powder": {
+    ingredients: "Dehydrated Tomato (Solanum lycopersicum) 100%",
+    energy: 258,
+    protein: 14.2,
+    carbs: 55.8,
+    fat: 3.0,
+    fibre: 22.7,
+  },
+  "Dehydrated Tomato": {
+    ingredients:
+      "Dehydrated Sun-dried Tomato Pieces (Solanum lycopersicum) 100%",
+    energy: 258,
+    protein: 14.2,
+    carbs: 55.8,
+    fat: 3.0,
+    fibre: 22.7,
+  },
+};
+
+// ────────────────────────────────────────────────────────────────────────────
+// PackBackLabel – renders a real-looking Indian food product back label
+// ────────────────────────────────────────────────────────────────────────────
+function PackBackLabel({
+  productName,
+  weight,
+}: { productName: string; weight: string }) {
+  const info = PACK_BACK_DATA[productName];
+  if (!info) return null;
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5 }}
+      className="mb-8"
+      data-ocid="product_detail.pack_back.panel"
+    >
+      <h2
+        className="font-display text-2xl font-bold mb-4 flex items-center gap-2"
+        style={{ color: "oklch(0.20 0.08 155)" }}
+      >
+        <span>🏷️</span> Product Back Label
+      </h2>
+      {/* Label card — styled like a real food product back label */}
+      <div
+        className="max-w-md mx-auto rounded-2xl overflow-hidden"
+        style={{
+          background: "white",
+          border: "2px solid oklch(0.88 0.05 155)",
+          boxShadow: "0 8px 32px rgba(15,76,53,0.14)",
+        }}
+      >
+        {/* Green header band */}
+        <div
+          className="px-5 py-4 text-white"
+          style={{
+            background:
+              "linear-gradient(135deg, oklch(0.28 0.12 155) 0%, oklch(0.38 0.14 155) 100%)",
+          }}
+        >
+          <p className="text-xs font-semibold uppercase tracking-widest opacity-75 font-body">
+            Ècoelen · by Kapiraj Foods
+          </p>
+          <h3 className="font-display text-xl font-bold mt-0.5 leading-snug">
+            {productName}
+          </h3>
+          <div className="flex items-center justify-between mt-2">
+            <span
+              className="text-xs font-semibold px-3 py-1 rounded-full font-body"
+              style={{
+                background: "rgba(255,255,255,0.18)",
+                backdropFilter: "blur(4px)",
+              }}
+            >
+              Net Wt: {weight}
+            </span>
+            <span
+              className="text-xs font-semibold px-3 py-1 rounded-full font-body"
+              style={{ background: "rgba(232,112,10,0.65)" }}
+            >
+              100% Natural
+            </span>
+          </div>
+        </div>
+
+        {/* Label body */}
+        <div className="px-5 py-4 space-y-4">
+          {/* Ingredients */}
+          <div>
+            <p
+              className="text-xs font-bold uppercase tracking-wide mb-1 font-body"
+              style={{ color: "oklch(0.25 0.10 155)" }}
+            >
+              Ingredients:
+            </p>
+            <p
+              className="text-xs leading-relaxed font-body"
+              style={{ color: "oklch(0.35 0.06 155)" }}
+            >
+              {info.ingredients}
+            </p>
+          </div>
+
+          {/* Nutrition Facts table */}
+          <div>
+            <div
+              className="rounded-xl overflow-hidden"
+              style={{ border: "1.5px solid oklch(0.88 0.04 155)" }}
+            >
+              <div
+                className="px-3 py-2"
+                style={{ background: "oklch(0.96 0.02 155)" }}
+              >
+                <p
+                  className="text-xs font-bold uppercase tracking-wide font-body"
+                  style={{ color: "oklch(0.25 0.10 155)" }}
+                >
+                  Nutrition Facts
+                </p>
+                <p
+                  className="text-xs font-body"
+                  style={{ color: "oklch(0.50 0.06 155)" }}
+                >
+                  Per 100g (approx.)
+                </p>
+              </div>
+              <table className="w-full text-xs font-body">
+                <thead>
+                  <tr style={{ background: "oklch(0.30 0.10 155)" }}>
+                    <th className="text-left px-3 py-1.5 text-white font-semibold">
+                      Nutrient
+                    </th>
+                    <th className="text-right px-3 py-1.5 text-white font-semibold">
+                      Per 100g
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {[
+                    { label: "Energy", value: `${info.energy} kcal` },
+                    { label: "Protein", value: `${info.protein}g` },
+                    { label: "Carbohydrate", value: `${info.carbs}g` },
+                    { label: "Total Fat", value: `${info.fat}g` },
+                    { label: "Dietary Fibre", value: `${info.fibre}g` },
+                  ].map((row, i) => (
+                    <tr
+                      key={row.label}
+                      style={{
+                        background:
+                          i % 2 === 0 ? "white" : "oklch(0.97 0.01 155)",
+                      }}
+                    >
+                      <td
+                        className="px-3 py-1.5"
+                        style={{ color: "oklch(0.35 0.06 155)" }}
+                      >
+                        {row.label}
+                      </td>
+                      <td
+                        className="px-3 py-1.5 text-right font-semibold"
+                        style={{ color: "oklch(0.25 0.10 155)" }}
+                      >
+                        {row.value}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {/* Footer info */}
+          <div
+            className="text-xs space-y-1 pt-2 font-body"
+            style={{
+              borderTop: "1px dashed oklch(0.85 0.04 155)",
+              color: "oklch(0.45 0.06 155)",
+            }}
+          >
+            <p>
+              <span
+                className="font-semibold"
+                style={{ color: "oklch(0.28 0.10 155)" }}
+              >
+                FSSAI Lic. No:
+              </span>{" "}
+              10011122334455
+            </p>
+            <p>
+              <span
+                className="font-semibold"
+                style={{ color: "oklch(0.28 0.10 155)" }}
+              >
+                Mfg by:
+              </span>{" "}
+              Kapiraj Foods, Tamil Nadu, India
+            </p>
+            <p>
+              <span
+                className="font-semibold"
+                style={{ color: "oklch(0.28 0.10 155)" }}
+              >
+                Best Before:
+              </span>{" "}
+              12 months from date of manufacture
+            </p>
+            <p>
+              <span
+                className="font-semibold"
+                style={{ color: "oklch(0.28 0.10 155)" }}
+              >
+                Storage:
+              </span>{" "}
+              Store in a cool, dry place away from direct sunlight
+            </p>
+            <p
+              className="mt-2 text-center font-semibold"
+              style={{ color: "oklch(0.28 0.10 155)" }}
+            >
+              🌿 100% Natural · No Preservatives · No Artificial Colours
+            </p>
+          </div>
+        </div>
+
+        {/* Bottom saffron strip */}
+        <div
+          className="h-2"
+          style={{
+            background:
+              "linear-gradient(90deg, oklch(0.62 0.19 50) 0%, oklch(0.68 0.18 80) 100%)",
+          }}
+        />
+      </div>
+    </motion.div>
+  );
+}
+
+// ────────────────────────────────────────────────────────────────────────────
+// ImageLightbox – full-screen zoom overlay for gallery images
+// ────────────────────────────────────────────────────────────────────────────
+function ImageLightbox({
+  images,
+  initialIndex,
+  isOpen,
+  onClose,
+  productName,
+}: {
+  images: { src: string; label: string }[];
+  initialIndex: number;
+  isOpen: boolean;
+  onClose: () => void;
+  productName: string;
+}) {
+  const [currentIdx, setCurrentIdx] = useState(initialIndex);
+
+  // Sync index when lightbox opens
+  useEffect(() => {
+    if (isOpen) setCurrentIdx(initialIndex);
+  }, [isOpen, initialIndex]);
+
+  // ESC key to close
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+      if (e.key === "ArrowLeft") setCurrentIdx((i) => Math.max(0, i - 1));
+      if (e.key === "ArrowRight")
+        setCurrentIdx((i) => Math.min(images.length - 1, i + 1));
+    };
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, [isOpen, images.length, onClose]);
+
+  const currentImg = images[currentIdx];
+  if (!currentImg) return null;
+
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          key="lightbox-overlay"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.2 }}
+          className="fixed inset-0 flex items-center justify-center"
+          style={{ zIndex: 9999, background: "rgba(0,0,0,0.92)" }}
+          onClick={onClose}
+          data-ocid="product_detail.lightbox.modal"
+        >
+          {/* Close button */}
+          <button
+            type="button"
+            onClick={onClose}
+            className="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center text-xl font-bold transition-all duration-150"
+            style={{
+              background: "rgba(255,255,255,0.15)",
+              color: "white",
+              backdropFilter: "blur(8px)",
+              border: "1px solid rgba(255,255,255,0.25)",
+            }}
+            data-ocid="product_detail.lightbox.close_button"
+          >
+            ×
+          </button>
+
+          {/* Left arrow */}
+          {currentIdx > 0 && (
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                setCurrentIdx((i) => i - 1);
+              }}
+              className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full flex items-center justify-center text-2xl font-bold transition-all duration-150 hover:scale-110"
+              style={{
+                background: "rgba(255,255,255,0.15)",
+                color: "white",
+                backdropFilter: "blur(8px)",
+                border: "1px solid rgba(255,255,255,0.25)",
+              }}
+              data-ocid="product_detail.lightbox.pagination_prev"
+            >
+              ‹
+            </button>
+          )}
+
+          {/* Right arrow */}
+          {currentIdx < images.length - 1 && (
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                setCurrentIdx((i) => i + 1);
+              }}
+              className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full flex items-center justify-center text-2xl font-bold transition-all duration-150 hover:scale-110"
+              style={{
+                background: "rgba(255,255,255,0.15)",
+                color: "white",
+                backdropFilter: "blur(8px)",
+                border: "1px solid rgba(255,255,255,0.25)",
+              }}
+              data-ocid="product_detail.lightbox.pagination_next"
+            >
+              ›
+            </button>
+          )}
+
+          {/* Main image */}
+          <motion.div
+            key={currentIdx}
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.9, opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="relative flex flex-col items-center"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <img
+              src={currentImg.src}
+              alt={`${productName} – ${currentImg.label}`}
+              style={{
+                maxWidth: "90vw",
+                maxHeight: "80vh",
+                objectFit: "contain",
+                borderRadius: "12px",
+                boxShadow: "0 24px 80px rgba(0,0,0,0.6)",
+              }}
+            />
+            {/* Label badge + counter */}
+            <div className="flex items-center gap-3 mt-4">
+              <span
+                className="text-white text-sm font-semibold px-4 py-1.5 rounded-full font-body"
+                style={{
+                  background: "rgba(255,255,255,0.15)",
+                  backdropFilter: "blur(8px)",
+                }}
+              >
+                {currentImg.label}
+              </span>
+              <span
+                className="text-white text-xs font-body"
+                style={{ opacity: 0.6 }}
+              >
+                {currentIdx + 1} / {images.length}
+              </span>
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}
+
 function StarRating({ stars, count }: { stars: number; count: number }) {
   const fullStars = Math.floor(stars);
   const hasHalf = stars % 1 >= 0.5;
@@ -2475,6 +3142,15 @@ export function ProductDetailPage() {
     { src: PRODUCT_IMAGES[product.name] ?? "", label: "Product" },
   ];
   const [activeImgIdx, setActiveImgIdx] = useState(0);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxIdx, setLightboxIdx] = useState(0);
+
+  const openLightbox = (idx: number) => {
+    setLightboxIdx(idx);
+    setLightboxOpen(true);
+  };
+  const closeLightbox = () => setLightboxOpen(false);
+
   const activeImg =
     gallery[activeImgIdx]?.src ?? PRODUCT_IMAGES[product.name] ?? "";
 
@@ -2527,6 +3203,15 @@ export function ProductDetailPage() {
       style={{ background: "oklch(0.97 0.018 90)" }}
       data-ocid="product_detail.page"
     >
+      {/* Image Lightbox */}
+      <ImageLightbox
+        images={gallery}
+        initialIndex={lightboxIdx}
+        isOpen={lightboxOpen}
+        onClose={closeLightbox}
+        productName={product.name}
+      />
+
       <div className="container mx-auto px-4 max-w-6xl">
         {/* Breadcrumb */}
         <nav
@@ -2587,16 +3272,25 @@ export function ProductDetailPage() {
               style={{ boxShadow: "0 4px 24px rgba(15,76,53,0.10)" }}
             >
               {activeImg ? (
-                <img
-                  src={activeImg}
-                  alt={product.name}
-                  className="w-full h-72 lg:h-96 object-cover transition-all duration-300"
-                  onError={(e) => {
-                    const fallback = PRODUCT_IMAGES[product.name];
-                    if (fallback && e.currentTarget.src !== fallback)
-                      e.currentTarget.src = fallback;
-                  }}
-                />
+                <button
+                  type="button"
+                  onClick={() => openLightbox(activeImgIdx)}
+                  className="w-full block p-0 border-0 bg-transparent"
+                  style={{ cursor: "zoom-in" }}
+                  aria-label={`View ${product.name} photo in full screen`}
+                  data-ocid="product_detail.gallery.canvas_target"
+                >
+                  <img
+                    src={activeImg}
+                    alt={product.name}
+                    className="w-full h-72 lg:h-96 object-cover transition-all duration-300"
+                    onError={(e) => {
+                      const fallback = PRODUCT_IMAGES[product.name];
+                      if (fallback && e.currentTarget.src !== fallback)
+                        e.currentTarget.src = fallback;
+                    }}
+                  />
+                </button>
               ) : (
                 <div
                   className="w-full h-72 lg:h-96 flex items-center justify-center"
@@ -2627,7 +3321,10 @@ export function ProductDetailPage() {
                 <button
                   key={img.label}
                   type="button"
-                  onClick={() => setActiveImgIdx(idx)}
+                  onClick={() => {
+                    setActiveImgIdx(idx);
+                    openLightbox(idx);
+                  }}
                   style={{
                     width: "80px",
                     border:
@@ -2886,6 +3583,12 @@ export function ProductDetailPage() {
             </div>
           </div>
         </div>
+
+        {/* Pack Back Label */}
+        <PackBackLabel
+          productName={product.name}
+          weight={selectedWeight.label}
+        />
 
         {/* How to Use */}
         <div className="mb-8">

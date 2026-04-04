@@ -607,6 +607,13 @@ export function CartDrawer({ open, onClose }: Props) {
                 COD: we&apos;ll confirm via phone · Online: secure Stripe
                 checkout
               </p>
+              <p
+                className="text-center text-xs font-body mt-1 flex items-center justify-center gap-1"
+                style={{ color: "oklch(0.52 0.17 155)" }}
+              >
+                🚚 Estimated delivery: 5–7 business days across India · Free
+                delivery on all orders
+              </p>
             </div>
           </>
         )}

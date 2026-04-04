@@ -1,6 +1,12 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
-export type Page = "home" | "products" | "about" | "contact" | "product-detail";
+export type Page =
+  | "home"
+  | "products"
+  | "about"
+  | "contact"
+  | "product-detail"
+  | "account";
 
 interface NavContextValue {
   activePage: Page;

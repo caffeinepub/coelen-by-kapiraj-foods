@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { AboutSection } from "./components/AboutSection";
+import { AccountPage } from "./components/AccountPage";
 import { AdminPage } from "./components/AdminPage";
 import { ContactSection } from "./components/ContactSection";
 import { FeaturesSection } from "./components/FeaturesSection";
@@ -69,6 +70,7 @@ function PageContent() {
           </>
         )}
         {activePage === "contact" && <ContactSection />}
+        {activePage === "account" && <AccountPage />}
       </motion.main>
     </AnimatePresence>
   );

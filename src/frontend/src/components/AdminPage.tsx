@@ -298,6 +298,7 @@ export function AdminPage({ onClose }: Props) {
                           <TableHead>Items</TableHead>
                           <TableHead>Total</TableHead>
                           <TableHead>Date</TableHead>
+                          <TableHead>Status</TableHead>
                         </TableRow>
                       </TableHeader>
                       <TableBody>
@@ -338,6 +339,46 @@ export function AdminPage({ onClose }: Props) {
                               </TableCell>
                               <TableCell className="text-xs text-muted-foreground font-body">
                                 {formatDate(order.timestamp)}
+                              </TableCell>
+                              <TableCell>
+                                {(() => {
+                                  const statusKey = `order_status_${String(order.id)}`;
+                                  const currentStatus =
+                                    localStorage.getItem(statusKey) ||
+                                    "Pending";
+                                  const statusColors: Record<string, string> = {
+                                    Pending:
+                                      "bg-yellow-100 text-yellow-800 border-yellow-300",
+                                    Processing:
+                                      "bg-blue-100 text-blue-800 border-blue-300",
+                                    Shipped:
+                                      "bg-orange-100 text-orange-800 border-orange-300",
+                                    Delivered:
+                                      "bg-green-100 text-green-800 border-green-300",
+                                  };
+                                  return (
+                                    <select
+                                      data-ocid={`admin.orders.select.${i + 1}`}
+                                      defaultValue={currentStatus}
+                                      onChange={(e) => {
+                                        localStorage.setItem(
+                                          statusKey,
+                                          e.target.value,
+                                        );
+                                      }}
+                                      className={`text-xs font-semibold rounded-lg px-2 py-1 border cursor-pointer outline-none ${statusColors[currentStatus] || statusColors.Pending}`}
+                                    >
+                                      <option value="Pending">Pending</option>
+                                      <option value="Processing">
+                                        Processing
+                                      </option>
+                                      <option value="Shipped">Shipped</option>
+                                      <option value="Delivered">
+                                        Delivered
+                                      </option>
+                                    </select>
+                                  );
+                                })()}
                               </TableCell>
                             </TableRow>
                           );

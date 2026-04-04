@@ -11,6 +11,8 @@ export const WEIGHT_OPTIONS: WeightOption[] = [
   { label: "100 gms", grams: 100, multiplier: 1 },
   { label: "200 gms", grams: 200, multiplier: 2 },
   { label: "500 gms", grams: 500, multiplier: 5 },
+  { label: "1 kg", grams: 1000, multiplier: 10 },
+  { label: "5 kg", grams: 5000, multiplier: 50 },
 ];
 
 export interface CartItem {

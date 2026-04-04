@@ -11,6 +11,7 @@ const navLinks: { label: string; page: Page }[] = [
   { label: "Products", page: "products" },
   { label: "About", page: "about" },
   { label: "Contact", page: "contact" },
+  { label: "My Account", page: "account" },
 ];
 
 export function Navbar() {
